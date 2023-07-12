@@ -49,9 +49,11 @@ export default {
       <div class="bg-ava-bg-gray rounded-l-ava10 flex items-center font-yekanX ss02 text-ava-gray pl-2">
         <label class="border-r-2 p-1 text-sm">+98</label>
       </div>
-      <input @input="FilterNonNumeric" inputmode="numeric" class="ss02 base-input" type="tel" maxlength="10"
-        v-model="numericInput" pattern="[0-9]" />
-      <!-- {3}-[0-9]{2}-[0-9]{3} -->
+      <!-- <input @input="FilterNonNumeric" inputmode="numeric" class="ss02 base-input" type="tel" maxlength="10"
+        v-model="numericInput" pattern="[0-9]" /> -->
+
+      <input @input="FilterNonNumeric" :class="['ss02', 'base-input', { 'error': hasError }]" type="tel" maxlength="10"
+        pattern="[0-9]" v-model="numericInput">
     </div>
 
 
@@ -70,9 +72,8 @@ export default {
 <style scoped>
 .base-input {
   direction: ltr;
-  @apply bg-ava-bg-gray w-full h-14 text-ava-green rounded-r-ava10 py-2 px-2 font-yekanX text-base;
+  @apply bg-ava-bg-gray w-full h-12 text-ava-green rounded-r-ava10 py-2 px-2 font-yekanX text-base;
 }
-
 
 .base-input:focus {
   transition: 0.3s;
@@ -83,17 +84,13 @@ export default {
   @apply text-ava-gray-2 text-sm;
 }
 
-.error input {
+.error {
   @apply outline-ava-orange border-2 border-ava-orange;
 }
 
-.error input:focus {
+/* .error:focus {
   @apply outline-ava-orange;
-}
-
-.error p {
-  @apply text-ava-orange;
-}
+} */
 
 .success input {
   @apply outline-ava-success border-2 border-ava-success;
