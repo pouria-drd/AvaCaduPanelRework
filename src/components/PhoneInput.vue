@@ -7,6 +7,11 @@ export default {
       type: String,
       default: "",
     },
+
+    modelValue: {
+      type: String,
+      default: '',
+    },
   },
 
   data() {
@@ -18,24 +23,33 @@ export default {
   },
 
   methods: {
-    FilterNonNumeric() {
+    FilterNonNumeric(target) {
       // Replace non-numeric characters with an empty string
-      if (this.numericInput.length === 0) {
+      if (target.value.length === 0) {
         this.errorMessage = "";
         this.hasError = true;
+        this.$emit('update-isValidPhone', false);
         return;
       }
-      if (this.numericInput.length < 10) {
-        this.numericInput = this.numericInput.replace(/[^0-9]/g, "");
+      if (target.value.length < 10) {
+        target.value = target.value.replace(/[^0-9]/g, "");
+        this.$emit('update-isValidPhone', false);
         return;
       }
-      this.numericInput = this.numericInput.replace(/[^0-9]/g, "");
+
+      target.value = target.value.replace(/[^0-9]/g, "");
+      this.$emit('update-isValidPhone', false);
+
       let pattern = new RegExp("09(0[0-9]|1[0-9]|2[1-9]|3[1-9]|9[1-9])-?[0-9]{3}-?[0-9]{4}");
-      if (pattern.test("0" + this.numericInput)) {
+
+      if (pattern.test("0" + target.value)) {
         this.hasError = false;
+        this.$emit('update-isValidPhone', true);
+
       } else {
         this.errorMessage = ".شماره وارد شده نامعتبر است";
         this.hasError = true;
+        this.$emit('update-isValidPhone', false);
       }
 
     }
@@ -52,13 +66,13 @@ export default {
       <!-- <input @input="FilterNonNumeric" inputmode="numeric" class="ss02 base-input" type="tel" maxlength="10"
         v-model="numericInput" pattern="[0-9]" /> -->
 
-      <input @input="FilterNonNumeric" :class="['ss02', 'base-input', { 'error': hasError }]" type="tel" maxlength="10"
-        pattern="[0-9]" v-model="numericInput">
+      <input @keyup="FilterNonNumeric($event.target)" :class="['ss02', 'base-input', { 'error': hasError }]" type="tel"
+        maxlength="10" pattern="[0-9]" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)">
     </div>
 
 
     <div class="text-right">
-      <p v-if="hasError" class="text-right ss02 mt-2 mr-1 text-xs text-ava-orange font-yekanX inline">
+      <p v-if="hasError && errorMessage" class="text-right ss02 mt-2 mr-1 text-xs text-ava-orange font-yekanX inline">
         {{ errorMessage }}
       </p>
 

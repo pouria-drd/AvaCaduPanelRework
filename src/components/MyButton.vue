@@ -42,7 +42,7 @@ export default {
 }
 
 .primary:hover {
-    @apply bg-[#3e612e] scale-105;
+    @apply bg-[#3e612e];
 }
 
 .bordered-primary {

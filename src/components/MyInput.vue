@@ -8,17 +8,40 @@ export default {
             default: "",
         },
 
+        inputClass: {
+            type: String,
+            default: "",
+        },
+
         msg: {
             type: String,
             default: "",
-        }
+        },
+
+        modelValue: {
+            type: String,
+            default: '',
+        },
+
+        maxlength: {
+            type: String,
+            default: "5",
+        },
+
+        type: {
+            type: String,
+            default: "text",
+        },
     },
 }
 </script>
 
 <template>
-    <div :class="['input-container', inputStyle]">
-        <input class="ss02 base-input">
+    <input :class="['ss02', 'base-input', inputClass]" :maxlength="maxlength" :type="type" :value="modelValue"
+        @input="$emit('update:modelValue', $event.target.value)">
+
+
+    <!-- <div :class="['input-container', inputStyle]">
 
         <div class="text-right">
             <p v-if="msg" class="text-right ss02 mt-2 mr-1 text-sm font-yekanX inline">
@@ -31,19 +54,18 @@ export default {
             <img v-if="msg && inputStyle && inputStyle === 'success'" class="inline"
                 src="../assets/images/successMsgIcon.svg" alt="SuccessMsgIcon">
         </div>
-    </div>
+    </div> -->
 </template>
 
 <style scoped>
 .base-input {
-    direction: rtl;
-    @apply bg-ava-bg-gray w-full h-12 text-ava-green rounded-ava10 py-2 px-5 font-yekanX text-sm;
+    /* direction: rtl; */
+    @apply bg-ava-bg-gray w-full h-12 text-ava-green py-2 px-2 font-yekanX text-base;
 }
 
 .base-input:focus {
-    transition: 0.5s;
-    border-radius: 14px;
-    @apply outline-ava-green bg-white scale-105;
+    transition: 0.3s;
+    @apply outline-ava-green bg-white;
 }
 
 .base-input::placeholder {
