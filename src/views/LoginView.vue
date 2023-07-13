@@ -16,12 +16,15 @@ export default {
       captchaImage: "",
 
       isValidPhone: false,
+      isProcessing: false,
 
       formData: {
         phoneNumber: "",
         captchaCode: "",
         captchaGuid: "",
       },
+
+      canSendData: false,
     };
   },
 
@@ -31,8 +34,27 @@ export default {
 
   methods: {
 
-    Login() {
-      console.log(0);
+    async Login() {
+
+      if (!this.canSendData) return;
+
+      this.isProcessing = true;
+      this.formData.phoneNumber = "0" + this.formData.phoneNumber;
+
+      await axios.post(this.$baseUrl + "auth/RequestLoginCode", this.formData)
+        .then((response) => {
+
+          sessionStorage.setItem("ttw", response.data.data)
+          sessionStorage.setItem("userPhoneNumber", this.formData.phoneNumber);
+
+          this.isProcessing = false;
+
+        }).catch((error) => {
+          this.isProcessing = false;
+          this.formData.captchaCode = "";
+          this.formData.phoneNumber = "";
+          this.RequestCaptcha();
+        });
     },
 
     async RequestCaptcha() {
@@ -44,7 +66,7 @@ export default {
         this.captchaImage = "data:image/*;base64," +
           response.data['data']['captcha'];
 
-        this.captchaGuid = response.data['data']['guid'];
+        this.formData.captchaGuid = response.data['data']['guid'];
 
       }).catch(error => {
         console.log(error);
@@ -55,8 +77,10 @@ export default {
   computed: {
     CanSendData() {
       if (this.formData.captchaCode.trim().length < 4 || !this.isValidPhone) {
+        this.canSendData = false;
         return false;
       } else {
+        this.canSendData = true;
         return true;
       }
     },
@@ -66,7 +90,7 @@ export default {
 
 <template>
   <main>
-    <form class="w-full" novalidate>
+    <form class="w-full" novalidate @submit.prevent="Login">
       <div class="mt-28 w-80 mx-auto rounded-ava10">
         <div class="h-8"></div>
         <!-- ac logo -------------------------------------------------------- -->
@@ -104,7 +128,8 @@ export default {
 
         <!-- Button -------------------------------------------------------- -->
         <div class="flex items-center mx-auto w-[91%] mt-4">
-          <my-button class="primary w-full h-12" @click="Login" :canSendData="CanSendData">
+          <my-button type="submit" class="primary w-full h-12" @click="Login" :canSendData="CanSendData"
+            :busy="isProcessing">
             تاید و دریافت کد
           </my-button>
         </div>
