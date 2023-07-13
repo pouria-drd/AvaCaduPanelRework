@@ -1,11 +1,13 @@
 <script>
 import axios from "axios";
+import Alert from "../components/Alert.vue";
 import MyInput from "../components/MyInput.vue";
 import MyButton from "../components/MyButton.vue";
 import PhoneInput from "../components/PhoneInput.vue";
 
 export default {
   components: {
+    Alert,
     MyInput,
     MyButton,
     PhoneInput,
@@ -13,8 +15,11 @@ export default {
 
   data() {
     return {
-      captchaImage: "",
+      showAlert: false,
+      alertMessage: "",
+      alertType: "error",
 
+      captchaImage: "",
       isValidPhone: false,
       isProcessing: false,
 
@@ -53,6 +58,9 @@ export default {
           this.isProcessing = false;
           this.formData.captchaCode = "";
           this.formData.phoneNumber = "";
+
+          this.alertMessage = error.response.data.message;
+          this.showAlert = true;
           this.RequestCaptcha();
         });
     },
@@ -89,6 +97,8 @@ export default {
 </script>
 
 <template>
+  <alert v-if="showAlert" :show-alert="showAlert" @update-showAlert="showAlert = $event" :message="alertMessage"
+    :type="alertType" />
   <main>
     <form class="w-full" novalidate @submit.prevent="Login">
       <div class="mt-28 w-80 mx-auto rounded-ava10">

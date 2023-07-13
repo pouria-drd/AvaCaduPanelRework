@@ -10,6 +10,9 @@ module.exports = {
         "ava-gray-2": "#959EA6",
         "ava-orange": "#FC573B",
         "ava-success": "#4CAF50",
+
+        "ava-info": "#5464B4",
+
         "ava-light-green": "#DCEAD7",
 
         "ava-bg-red": "#FEEBF4",
@@ -17,6 +20,11 @@ module.exports = {
         "ava-bg-gray": "#F8F7FF",
         "ava-bg-green": "#F6FFF8",
         "ava-bg-white": "#F9F7F3",
+
+        "ava-bg-alert-error": "#FFEBED",
+        "ava-bg-alert-info": "#F0F2FF",
+        "ava-bg-alert-success": "#ECFCF0",
+        "ava-bg-alert-danger": "#FFFDF0",
       },
 
       fontFamily: {
