@@ -10,6 +10,18 @@ const router = createRouter({
     },
 
     {
+      path: "/confirm-code",
+      name: "confirmCode",
+      component: () => import("../views/ConfirmCodeView.vue"),
+    },
+
+    {
+      path: "/home",
+      name: "home",
+      component: () => import("../views/HomeView.vue"),
+    },
+
+    {
       path: "/playground",
       name: "playground",
       component: () => import("../views/PlaygroundView.vue"),

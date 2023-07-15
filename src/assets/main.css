@@ -121,6 +121,12 @@ select::-ms-expand {
 }
 
 /* ---------------------------------------------------------------------- */
+/* my-input area */
+.my-input {
+  @apply rounded-ava10 bg-ava-bg-gray transition focus:outline-ava-green focus:bg-white text-center text-ava-green text-base font-yekanX ss02;
+}
+
+/* ---------------------------------------------------------------------- */
 /* Checkbox buttons area */
 
 .checkbox-btn {
