@@ -21,6 +21,10 @@ module.exports = {
         "ava-bg-green": "#F6FFF8",
         "ava-bg-white": "#F9F7F3",
 
+        "ava-panel-bg-gray": "#F6F9FF",
+
+        "ava-nav-bg-gray": "#F6F8FF",
+
         "ava-bg-alert-error": "#FFEBED",
         "ava-bg-alert-info": "#F0F2FF",
         "ava-bg-alert-success": "#ECFCF0",
