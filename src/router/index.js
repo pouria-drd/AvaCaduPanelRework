@@ -22,9 +22,9 @@ const router = createRouter({
     },
 
     {
-      path: "/wallet",
-      name: "wallet",
-      component: () => import("../views/WalletView.vue"),
+      path: "/credits-list",
+      name: "credits-list",
+      component: () => import("../views/CreditsListView.vue"),
     },
 
     {

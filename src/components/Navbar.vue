@@ -14,7 +14,7 @@ export default {
             this.showServices = true;
         }
 
-        if (this.$route.name === 'wallet') {
+        if (this.$route.name === 'credits-list') {
             this.showWallet = true;
             this.showServices = false;
         }
@@ -83,12 +83,12 @@ export default {
                 <div v-if="showWallet" class="cursor-pointer font-yekanX text-ava-gray text-base
                 mt-2">
 
-                    <router-link :to="{ name: 'wallet' }"
+                    <router-link :to="{ name: 'credits-list' }"
                         class="decoration-transparent mr-6 text-right flex justify-end text-ava-gray"
                         active-class="bg-ava-nav-bg-gray rounded-ava7 text-ava-green">
 
                         <div class="inline-flex items-center p-[10px]">
-                            <router-link :to="{ name: 'wallet' }"
+                            <router-link :to="{ name: 'credits-list' }"
                                 class="decoration-transparent font-yekanX text-ava-gray text-sm mr-3"
                                 active-class="text-ava-green">
                                 کیف پول
@@ -100,7 +100,7 @@ export default {
                                     fill="currentColor" />
                             </svg>
                         </div>
-                        <div v-show="$route.name === 'wallet'" class="navbar-active-icon my-auto">
+                        <div v-show="$route.name === 'credits-list'" class="navbar-active-icon my-auto">
                         </div>
                     </router-link>
                 </div>
