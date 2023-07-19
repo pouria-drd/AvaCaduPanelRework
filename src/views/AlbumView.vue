@@ -11,6 +11,6 @@ export default {
 <template>
     <Navbar />
     <main class="bg-ava-panel-bg-gray w-full h-[100vh]">
-        <h1>This is wallet</h1>
+        This is Album view
     </main>
 </template>

@@ -69,20 +69,7 @@ export default {
 
         <br>
         <br>
-
-        <my-input class="w-80" placeholder="شماره موبایل" type="text" maxlength="10" />
-
         <br>
-
-        <my-input class="w-80" inputStyle="error" placeholder="شماره موبایل" type="text" maxlength="10" msg="خطا" />
-
-        <br>
-
-        <my-input class="w-80" inputStyle="success" placeholder="شماره موبایل" type="text" maxlength="10" msg="موفقیت" />
-
-
-        <br>
-
 
         <select class="my-select ss02">
             <option selected>دراپ دون</option>
@@ -96,7 +83,7 @@ export default {
         <br>
         <br>
 
-        <my-select :options="[1, 2]" class=" w-60" default="سلام" />
+        <my-select :options="[1, 2]" class=" w-60" default="سلکت کاستوم" />
 
         <br>
         <br>

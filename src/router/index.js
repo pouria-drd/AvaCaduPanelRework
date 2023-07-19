@@ -28,6 +28,18 @@ const router = createRouter({
     },
 
     {
+      path: "/avacadu",
+      name: "avacadu",
+      component: () => import("../views/AvacaduView.vue"),
+    },
+
+    {
+      path: "/album",
+      name: "album",
+      component: () => import("../views/AlbumView.vue"),
+    },
+
+    {
       path: "/playground",
       name: "playground",
       component: () => import("../views/PlaygroundView.vue"),
