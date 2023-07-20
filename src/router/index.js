@@ -25,6 +25,13 @@ const router = createRouter({
     },
 
     {
+      name: "card-to-card",
+      path: "/card-to-card",
+      meta: { requiresAuth: true },
+      component: () => import("../views/CardToCardView.vue"),
+    },
+
+    {
       name: "credits-list",
       path: "/credits-list",
       meta: { requiresAuth: true },

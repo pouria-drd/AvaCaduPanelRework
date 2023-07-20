@@ -13,9 +13,6 @@ export default {
                 "absolute",
                 "2md:flex",
                 "h-[100vh]",
-                // "sm:w-[28%]",
-                // "lg:w-[23%]",
-                // "xl:w-[20%]",
                 "2md:w-auto",
                 "nav-shadow",
                 "top-[73.5px]",
@@ -31,7 +28,7 @@ export default {
             this.showServices = true;
         };
 
-        if (this.$route.name === 'credits-list') {
+        if (this.$route.name === 'credits-list' || this.$route.name === 'card-to-card') {
             this.showWallet = true;
             this.showServices = false;
         };
@@ -91,7 +88,28 @@ export default {
                 <!-- ---------------------------------------------------------------------- -->
                 <div v-if="showWallet" class="cursor-pointer font-yekanX text-ava-gray text-base
             mt-2">
+                    <!-- ---------------------------------------------------------------------- -->
+                    <router-link :to="{ name: 'card-to-card' }"
+                        class="decoration-transparent mr-6 text-right flex justify-end text-ava-gray"
+                        active-class="bg-ava-nav-bg-gray rounded-ava7 text-ava-green">
 
+                        <div class="inline-flex items-center p-[10px]">
+                            <router-link :to="{ name: 'card-to-card' }"
+                                class="decoration-transparent font-yekanX text-ava-gray text-sm mr-3"
+                                active-class="text-ava-green">
+                                کارت به کارت
+                            </router-link>
+
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17" fill="none">
+                                <path
+                                    d="M19 8.5C19 4.96469 19 3.19656 17.9452 2.09875C16.8913 1 15.1939 1 11.8 1H8.2C4.8061 1 3.1087 1 2.0548 2.09875C1 3.19656 1 4.96469 1 8.5C1 12.0353 1 13.8034 2.0548 14.9012C3.1087 16 4.8061 16 8.2 16H11.8C15.1939 16 16.8913 16 17.9452 14.9012C18.5338 14.2891 18.7939 13.4687 18.9082 12.25M8.2 12.25H4.6M11.8 12.25H10.45M1 6.625H5.5M19 6.625H9.1"
+                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                            </svg>
+                        </div>
+                        <div v-show="$route.name === 'card-to-card'" class="navbar-active-icon my-auto">
+                        </div>
+                    </router-link>
+                    <!-- ---------------------------------------------------------------------- -->
                     <router-link :to="{ name: 'credits-list' }"
                         class="decoration-transparent mr-6 text-right flex justify-end text-ava-gray"
                         active-class="bg-ava-nav-bg-gray rounded-ava7 text-ava-green">
@@ -100,7 +118,7 @@ export default {
                             <router-link :to="{ name: 'credits-list' }"
                                 class="decoration-transparent font-yekanX text-ava-gray text-sm mr-3"
                                 active-class="text-ava-green">
-                                کیف پول
+                                لیست اعتبارها
                             </router-link>
 
                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18" fill="none">

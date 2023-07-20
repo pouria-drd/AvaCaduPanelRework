@@ -11,6 +11,6 @@ export default {
 <template>
     <Navbar />
     <main class="bg-ava-panel-bg-gray w-full h-[100vh]">
-        <h1>This is credits list view</h1>
+        <h1>This is card to card view</h1>
     </main>
 </template>
