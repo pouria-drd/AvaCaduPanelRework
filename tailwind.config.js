@@ -39,6 +39,9 @@ module.exports = {
         "ava-info-bg-green": "#DDF5E3",
         "ava-info-bg-purple": "#E4E7FF",
         "ava-info-bg-lightBlue": "#CBF8F3",
+
+        "ava-th-bg": "#EBEFFB",
+        "ava-border-bg": "#E4E7EE",
       },
 
       fontFamily: {
