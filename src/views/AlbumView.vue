@@ -88,11 +88,23 @@ export default {
                         class="bg-white border-b border-ava-border-bg font-yekanX text-sm text-ava-gray">
 
                         <td class="px-6 py-4">
-                            <img @click="OpenQRModal(album.uniqueKey)" src="../assets/images/QRicon.svg" alt="QRicon">
+                            <img class="cursor-pointer" @click="OpenQRModal(album.uniqueKey)"
+                                src="../assets/images/QRicon.svg" alt="QRicon">
                         </td>
 
-                        <td class="px-6 py-4">
-                            {{ album.isActive }}
+                        <td class="h-full">
+                            <div v-if="album.isActive"
+                                class="bg-ava-table-bg-green text-ava-success rounded-ava18 h-8 w-20 mx-auto">
+                                <p class="font-yekanX text-xs leading-8">
+                                    فعال
+                                </p>
+                            </div>
+
+                            <div v-else class="bg-ava-info-bg-red text-ava-orange rounded-ava18 h-8 w-20 mx-auto">
+                                <p class="font-yekanX text-xs leading-8">
+                                    غیر فعال
+                                </p>
+                            </div>
                         </td>
 
                         <td class="px-6 py-4">

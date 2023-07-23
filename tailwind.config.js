@@ -42,6 +42,8 @@ module.exports = {
 
         "ava-th-bg": "#EBEFFB",
         "ava-border-bg": "#E4E7EE",
+
+        "ava-table-bg-green": "#E3F8E8",
       },
 
       fontFamily: {
@@ -55,6 +57,7 @@ module.exports = {
       borderRadius: {
         ava7: "7px",
         ava10: "10px",
+        ava18: "18px",
       },
     },
   },
