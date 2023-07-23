@@ -1,5 +1,6 @@
 <script>
-import axios from "axios"
+import axios from "axios";
+import PersianDate from "persian-date";
 
 export default {
     components: {
@@ -51,6 +52,22 @@ export default {
         OpenQRModal(key) {
             this.selectedUniqueKey = "https://link.avacadu.ir/album/" + key;
             this.showQRModal = true;
+        },
+
+        // ConvertToPersianDate(dateToConvert) {
+        //     let date = new Date(dateToConvert);
+
+        //     date = momentTimeZone.utc(dateToConvert).tz('Asia/Tehran').format('YYYY-MM-DD HH:mm:ss'); // Tehran time
+
+        //     let persian_date = new persianDate(date);
+        //     return persian_date.format("YYYY/MM/DD"); // 1402/02/02
+        //     // item.createdAt = persian_date.format("dddd، D MMMM YYYY") // دوشنبه، ۱۴ فروردین ۱۴۰۲
+        // },
+
+        ConvertToPersianDate(dateToConvert) {
+            let date = new Date(dateToConvert);
+            let persian_date = new PersianDate(date);
+            return persian_date.format("YYYY/MM/DD");
         },
     },
 };
@@ -115,27 +132,53 @@ export default {
                             {{ album.contractGuid }}
                         </td>
 
-                        <td class="px-6 py-4">
-                            test
+                        <td class="ss02 px-0 py-4 block">
+                            <div class="flex my-auto items-center justify-center flex-col content-center">
+                                <p class="font-yekanX m-0 text-ava-black">
+                                    {{ ConvertToPersianDate(album.createdAt) }}
+                                </p>
+
+                                <p class="font-yekanX m-0 text-sm text-ava-gray">
+                                    22:22
+                                </p>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
+                <tfoot class="text-center">
+                    <tr>
+                        <td class="bg-white">
+
+                        </td>
+                        <td class="bg-white">
+
+                        </td>
+                        <td class="bg-white">
+                            <div v-if="isGettingData" class="bg-white flex items-center justify-center">
+                                <p class="mt-3 text-ava-green font-yekanX text-sm">
+                                    درحال دریافت
+
+                                </p>
+
+                                <div class="ml-2 spinner-border spinner-border-sm text-ava-green" role="status">
+                                </div>
+                            </div>
+
+                            <div v-else class="bg-white flex items-center justify-center">
+                                <p @click="RequestAlbumData" class="mt-3 text-ava-green font-yekanX text-sm cursor-pointer">
+                                    نمایش بیشتر
+                                </p>
+                            </div>
+                        </td>
+                        <td class="bg-white">
+
+                        </td>
+                        <td class="bg-white">
+
+                        </td>
+                    </tr>
+                </tfoot>
             </table>
-            <div v-if="isGettingData" class="bg-white flex items-center justify-center">
-                <p class="mt-3 text-ava-green font-yekanX text-sm">
-                    درحال دریافت
-
-                </p>
-
-                <div class="ml-2 spinner-border spinner-border-sm text-ava-green" role="status">
-                </div>
-            </div>
-
-            <div v-else class="bg-white flex items-center justify-center">
-                <p @click="RequestAlbumData" class="mt-3 text-ava-green font-yekanX text-sm cursor-pointer">
-                    نمایش بیشتر
-                </p>
-            </div>
         </div>
     </main>
 </template>
