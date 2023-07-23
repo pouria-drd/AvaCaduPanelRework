@@ -20,17 +20,6 @@ export default {
         };
     },
 
-    created() {
-        if (this.$route.name === 'avacadu' || this.$route.name === 'album') {
-            this.showServices = true;
-        };
-
-        if (this.$route.name === 'credits-list' || this.$route.name === 'card-to-card') {
-            this.showWallet = true;
-            this.showServices = false;
-        };
-    },
-
     methods: {
         ShowServices() {
             this.showServices = !this.showServices;
@@ -45,8 +34,26 @@ export default {
             localStorage.clear();
             sessionStorage.clear();
             this.$router.push({ 'name': 'login' });
-        }
+        },
+
+        PathChanged() {
+            if (this.$route.name === 'avacadu' || this.$route.name === 'album') {
+                this.showWallet = false;
+                this.showServices = true;
+            };
+
+            if (this.$route.name === 'credits-list' || this.$route.name === 'card-to-card') {
+                this.showWallet = true;
+                this.showServices = false;
+            };
+        },
     },
+
+    watch: {
+        $route(to, from) {
+            this.PathChanged();
+        }
+    }
 }
 </script>
 

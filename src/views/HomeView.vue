@@ -21,8 +21,6 @@ export default {
 <template>
     <main class=" w-full h-auto">
 
-        <div class="h-16"></div>
-
         <div class="flex gap-4 lg:flex-row-reverse flex-col mb-5 2md:justify-start justify-end">
 
 

@@ -45,7 +45,7 @@ export default {
             <Navbar />
 
             <div class="flex justify-between">
-                <div class="bg-ava-panel-bg-gray p-5 md:p-20 w-full h-[90vh]">
+                <div class="bg-ava-panel-bg-gray p-4 w-full h-[90vh]">
                     <RouterView />
                 </div>
 
