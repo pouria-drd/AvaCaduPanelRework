@@ -1,10 +1,8 @@
 <script>
-import Navbar from '../components/Navbar.vue';
 import InfoDiv from '../components/InfoDiv.vue';
 
 export default {
     components: {
-        Navbar,
         InfoDiv,
     },
 
@@ -21,11 +19,11 @@ export default {
 </script>
 
 <template>
-    <Navbar />
-    <main class="bg-ava-panel-bg-gray w-full h-[100vh]">
+    <main class=" w-full h-auto">
+
         <div class="h-16"></div>
 
-        <div class="flex gap-4 lg:flex-row-reverse flex-col 2md:w-[73%] ml-0 2md:ml-8 mb-5 2md:justify-start justify-end">
+        <div class="flex gap-4 lg:flex-row-reverse flex-col mb-5 2md:justify-start justify-end">
 
 
             <div class="w-[80%] lg:w-1/3 order-1 lg:order-2 mx-auto 2md:m-0">
@@ -80,8 +78,8 @@ export default {
             </div>
         </div>
 
-        <div>
-            <div class="w-full ml-0 flex flex-wrap justify-center 2lg:justify-end 2md:w-[73%] 2md:ml-8">
+        <!-- <div>
+            <div class="w-full ml-0 flex flex-wrap justify-center 2md:justify-around">
                 <info-div bg-color="red" title="64455 تومان" caption="سقف اعتبار" />
 
                 <info-div bg-color="lightBlue" title="64455 تومان" caption="اعتبار فعلی" />
@@ -90,6 +88,8 @@ export default {
 
                 <info-div bg-color="purple" title="64455 تومان" caption="تعداد آواکادو های ثبت شده" />
             </div>
-        </div>
+        </div> -->
+        <div class="h-16"></div>
+
     </main>
 </template>

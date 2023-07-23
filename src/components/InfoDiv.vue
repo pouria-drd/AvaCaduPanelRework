@@ -27,7 +27,7 @@ export default {
             src: "../assets/images/defaultImg.svg",
 
             baseClass: [
-                'w-60', 'h-20', 'ml-2', 'my-1',
+                'w-60', 'h-20', 'my-1',
                 'rounded-ava10', 'flex', 'justify-end', 'items-center'
             ],
         };
