@@ -50,8 +50,8 @@ export default {
 </script>
 
 <template>
-    <nav class="bg-white h-[10vh]">
-        <div class="flex justify-between md:justify-end items-center h-full">
+    <nav class="h-[10vh] pb-px">
+        <div class="bg-white nav-shadow flex justify-between md:justify-end items-center h-full">
             <img class="w-7 ml-4 md:mr-4" src="../assets/images/acLogo.svg" alt="AvacaduLogo">
 
             <menu-icon v-if="!isOpen" @click="ToggleMenu"
@@ -67,3 +67,8 @@ export default {
     </div>
 </template>
 
+<style scoped>
+.nav-shadow {
+    box-shadow: 0px 1px 2px 0px rgba(184, 184, 184, 0.25);
+}
+</style>

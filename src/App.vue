@@ -54,3 +54,9 @@ export default {
         </div>
     </div>
 </template>
+
+<style>
+body {
+    @apply bg-ava-bg-gray
+}
+</style>
