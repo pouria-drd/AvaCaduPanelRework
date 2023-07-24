@@ -1,9 +1,11 @@
 <script>
 import axios from "axios";
 import PersianDate from "persian-date";
+import qrIcon from "../components/icons/qrIcon.vue";
 
 export default {
     components: {
+        qrIcon,
     },
 
     created() {
@@ -14,7 +16,12 @@ export default {
         return {
             albumData: [],
             lazyAlbum: [],
+
             isGettingData: false,
+            showRequestDataBtn: true,
+
+            lengthMultiplier: 2,
+            dataLengthControll: 3,
 
             selectedUniqueKey: null,
         };
@@ -40,6 +47,7 @@ export default {
 
             }).then(response => {
                 this.albumData = response.data.data;
+                this.HandleLazyAlbum(this.albumData);
 
             }).catch(error => {
                 console.log(error);
@@ -49,25 +57,40 @@ export default {
             this.isGettingData = false;
         },
 
+        HandleLazyAlbum(lazyData) {
+            if (lazyData.length >= this.dataLengthControll) {
+                this.lazyAlbum = lazyData.slice(0, this.dataLengthControll);
+
+            } else {
+                this.lazyAlbum = lazyData;
+            }
+        },
+
+        RequestMoreData() {
+            this.lazyAlbum = this.albumData.slice(0, this.lazyAlbum.length *
+                this.lengthMultiplier);
+
+            if (this.lazyAlbum.length === this.albumData.length) {
+                this.showRequestDataBtn = false;
+
+            } else {
+                this.showRequestDataBtn = true;
+            }
+        },
+
         OpenQRModal(key) {
             this.selectedUniqueKey = "https://link.avacadu.ir/album/" + key;
             this.showQRModal = true;
         },
 
-        // ConvertToPersianDate(dateToConvert) {
-        //     let date = new Date(dateToConvert);
-
-        //     date = momentTimeZone.utc(dateToConvert).tz('Asia/Tehran').format('YYYY-MM-DD HH:mm:ss'); // Tehran time
-
-        //     let persian_date = new persianDate(date);
-        //     return persian_date.format("YYYY/MM/DD"); // 1402/02/02
-        //     // item.createdAt = persian_date.format("dddd، D MMMM YYYY") // دوشنبه، ۱۴ فروردین ۱۴۰۲
-        // },
-
         ConvertToPersianDate(dateToConvert) {
             let date = new Date(dateToConvert);
             let persian_date = new PersianDate(date);
-            return persian_date.format("YYYY/MM/DD");
+
+            return {
+                time: persian_date.format("HH:MM"),
+                date: persian_date.format("YYYY/MM/DD"),
+            }
         },
     },
 };
@@ -75,7 +98,7 @@ export default {
 
 <template>
     <main class="bg-ava-panel-bg-gray w-full">
-        <div class="flex flex-col rounded-ava10 overflow-x-auto h-[80vh] overflow-y-auto">
+        <div class="flex flex-col rounded-ava10 overflow-x-auto h-[60vh] overflow-y-auto">
             <table class="">
                 <thead class="bg-ava-th-bg font-yekanX text-center text-ava-gray text-xs sticky top-0">
                     <tr>
@@ -101,12 +124,12 @@ export default {
                     </tr>
                 </thead>
                 <tbody v-if="!isGettingData" class="text-center">
-                    <tr v-for="album in albumData" :key="album.id"
+                    <tr v-for="album in lazyAlbum" :key="album.id"
                         class="bg-white border-b border-ava-border-bg font-yekanX text-sm text-ava-gray">
 
-                        <td class="px-6 py-4">
-                            <img class="cursor-pointer" @click="OpenQRModal(album.uniqueKey)"
-                                src="../assets/images/QRicon.svg" alt="QRicon">
+                        <td class="h-full">
+                            <qr-icon class="cursor-pointer mx-auto hover:text-black transition"
+                                @click="OpenQRModal(album.uniqueKey)" />
                         </td>
 
                         <td class="h-full">
@@ -135,11 +158,11 @@ export default {
                         <td class="ss02 px-0 py-4 block">
                             <div class="flex my-auto items-center justify-center flex-col content-center">
                                 <p class="font-yekanX m-0 text-ava-black">
-                                    {{ ConvertToPersianDate(album.createdAt) }}
+                                    {{ ConvertToPersianDate(album.createdAt).date }}
                                 </p>
 
-                                <p class="font-yekanX m-0 text-sm text-ava-gray">
-                                    22:22
+                                <p class="font-yekanX m-0 text-xs text-ava-gray">
+                                    {{ ConvertToPersianDate(album.createdAt).time }}
                                 </p>
                             </div>
                         </td>
@@ -164,8 +187,9 @@ export default {
                                 </div>
                             </div>
 
-                            <div v-else class="bg-white flex items-center justify-center">
-                                <p @click="RequestAlbumData" class="mt-3 text-ava-green font-yekanX text-sm cursor-pointer">
+                            <div v-if="!isGettingData && showRequestDataBtn"
+                                class="bg-white flex items-center justify-center">
+                                <p @click="RequestMoreData" class="mt-3 text-ava-green font-yekanX text-sm cursor-pointer">
                                     نمایش بیشتر
                                 </p>
                             </div>
