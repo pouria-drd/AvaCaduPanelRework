@@ -1,9 +1,15 @@
 <script>
-import InfoDiv from '../components/InfoDiv.vue';
+import InfoDiv from "../components/InfoDiv.vue";
+import albumIcon from "../components/icons/albumIcon.vue";
+import walletIcon from "../components/icons/walletIcon.vue";
+import avacaduIcon from "../components/icons/avacaduIcon.vue";
 
 export default {
     components: {
         InfoDiv,
+        albumIcon,
+        walletIcon,
+        avacaduIcon,
     },
 
     created() {
@@ -19,7 +25,7 @@ export default {
 </script>
 
 <template>
-    <main class=" w-full h-auto">
+    <main class="w-full h-auto">
 
         <div class="flex gap-4 lg:flex-row-reverse flex-col mb-5 2md:justify-start justify-end">
 
@@ -29,7 +35,7 @@ export default {
 
                     <div class="bg-white w-1/3 rounded-s-ava10 border-r-2">
                         <div class="mt-3">
-                            <img class="mx-auto mb-2" src="../assets/images/newAvacaduIcon.svg" alt="NewAvacaduIcon">
+                            <avacadu-icon class="mx-auto mb-2 text-ava-green" />
                         </div>
                         <p class="text-ava-green text-xs text-center font-yekanX">
                             آواکادوی جدید
@@ -38,7 +44,7 @@ export default {
 
                     <div class="bg-white w-1/3 border-r-2">
                         <div class="mt-3">
-                            <img class="mx-auto mb-2" src="../assets/images/newAlbumIcon.svg" alt="NewAvacaduIcon">
+                            <album-icon class="mx-auto mb-2 text-ava-green" />
                         </div>
                         <p class="text-ava-green text-xs text-center font-yekanX">
                             آلبوم جدید
@@ -47,7 +53,7 @@ export default {
 
                     <div class="bg-white w-1/3 rounded-e-ava10">
                         <div class="mt-3">
-                            <img class="mx-auto mb-2" src="../assets/images/newCreditIcon.svg" alt="NewAvacaduIcon">
+                            <wallet-icon class="mx-auto mb-2 text-ava-green" />
                         </div>
                         <p class="text-ava-green text-xs text-center font-yekanX">
                             افزایش اعتبار

@@ -7,7 +7,7 @@ export default {
 </script>
 
 <template>
-    <main class="bg-ava-panel-bg-gray w-full h-[100vh]">
+    <main class="w-full h-auto">
         <h1>This is card to card view</h1>
     </main>
 </template>

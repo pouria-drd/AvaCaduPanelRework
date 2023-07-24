@@ -7,7 +7,7 @@ export default {
 </script>
 
 <template>
-    <main class="bg-ava-panel-bg-gray w-full h-[100vh]">
+    <main class="w-full h-auto">
         This is avavadu view
     </main>
 </template>
