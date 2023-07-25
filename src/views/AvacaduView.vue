@@ -4,17 +4,17 @@ import PersianDate from "persian-date";
 import momentTimeZone from 'moment-timezone';
 import MyButton from "../components/MyButton.vue";
 import qrIcon from "../components/icons/qrIcon.vue";
-import publicIcon from "../components/icons/publicIcon.vue";
-import privateIcon from "../components/icons/privateIcon.vue";
+import TableStatus from "../components/TableStatus.vue";
+import TableAccess from "../components/TableAccess.vue";
 import avacaduIcon from "../components/icons/avacaduIcon.vue";
 
 export default {
     components: {
         qrIcon,
         MyButton,
-        publicIcon,
-        privateIcon,
         avacaduIcon,
+        TableStatus,
+        TableAccess,
     },
 
     created() {
@@ -173,40 +173,17 @@ export default {
                     <tr v-for="avacadu in lazyAlbum" :key="avacadu.id"
                         class="bg-white border-b border-ava-border-bg font-yekanX text-sm text-ava-gray">
 
-                        <td class="h-full">
+                        <td>
                             <qr-icon class="cursor-pointer mx-auto hover:text-black transition"
                                 @click="OpenQRModal(avacadu.uniqueKey)" />
                         </td>
 
                         <td>
-                            <div v-if="avacadu.isPrivate"
-                                class="flex flex-row items-center justify-center text-center gap-2">
-                                <p class="font-yekanX text-xs leading-8 m-0">
-                                    خصوصی
-                                </p>
-                                <private-icon />
-                            </div>
-                            <div v-else class="flex flex-row items-center justify-center text-center gap-2 text-ava-black">
-                                <p class="font-yekanX text-xs leading-8 m-0">
-                                    عمومی
-                                </p>
-                                <public-icon />
-                            </div>
+                            <table-access :is-private="avacadu.isPrivate" />
                         </td>
 
-                        <td class="h-full">
-                            <div v-if="avacadu.isActive"
-                                class="bg-ava-table-bg-green text-ava-success rounded-ava18 h-8 w-20 mx-auto">
-                                <p class="font-yekanX text-xs leading-8">
-                                    فعال
-                                </p>
-                            </div>
-
-                            <div v-else class="bg-ava-info-bg-red text-ava-orange rounded-ava18 h-8 w-20 mx-auto">
-                                <p class="font-yekanX text-xs leading-8">
-                                    غیر فعال
-                                </p>
-                            </div>
+                        <td>
+                            <table-status :is-active="avacadu.isActive" />
                         </td>
 
                         <td class="px-6 py-4">

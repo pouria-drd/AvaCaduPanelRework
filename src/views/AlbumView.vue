@@ -4,6 +4,7 @@ import PersianDate from "persian-date";
 import momentTimeZone from 'moment-timezone';
 import MyButton from "../components/MyButton.vue";
 import qrIcon from "../components/icons/qrIcon.vue";
+import TableStatus from "../components/TableStatus.vue";
 import albumIcon from "../components/icons/albumIcon.vue";
 
 export default {
@@ -11,6 +12,7 @@ export default {
         qrIcon,
         MyButton,
         albumIcon,
+        TableStatus,
     },
 
     created() {
@@ -165,24 +167,13 @@ export default {
                     <tr v-for="album in lazyAlbum" :key="album.id"
                         class="bg-white border-b border-ava-border-bg font-yekanX text-sm text-ava-gray">
 
-                        <td class="h-full">
+                        <td>
                             <qr-icon class="cursor-pointer mx-auto hover:text-black transition"
                                 @click="OpenQRModal(album.uniqueKey)" />
                         </td>
 
-                        <td class="h-full">
-                            <div v-if="album.isActive"
-                                class="bg-ava-table-bg-green text-ava-success rounded-ava18 h-8 w-20 mx-auto">
-                                <p class="font-yekanX text-xs leading-8">
-                                    فعال
-                                </p>
-                            </div>
-
-                            <div v-else class="bg-ava-info-bg-red text-ava-orange rounded-ava18 h-8 w-20 mx-auto">
-                                <p class="font-yekanX text-xs leading-8">
-                                    غیر فعال
-                                </p>
-                            </div>
+                        <td>
+                            <table-status :is-active="album.isActive" />
                         </td>
 
                         <td class="px-6 py-4">
