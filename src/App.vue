@@ -11,6 +11,7 @@ export default {
     data() {
         return {
             isMobile: false,
+            breakpoint: 935,
         };
     },
 
@@ -28,7 +29,7 @@ export default {
 
     methods: {
         CheckIsMobile() {
-            this.isMobile = window.innerWidth <= 768;
+            this.isMobile = window.innerWidth <= this.breakpoint;
         },
     },
 }
