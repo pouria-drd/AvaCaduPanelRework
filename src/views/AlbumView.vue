@@ -3,11 +3,13 @@ import axios from "axios";
 import PersianDate from "persian-date";
 import MyButton from "../components/MyButton.vue";
 import qrIcon from "../components/icons/qrIcon.vue";
+import albumIcon from "../components/icons/albumIcon.vue";
 
 export default {
     components: {
         qrIcon,
         MyButton,
+        albumIcon,
     },
 
     created() {
@@ -107,10 +109,13 @@ export default {
         <div class="flex flex-col h-[80vh]">
             <div class="flex flex-col-reverse gap-2 md:flex-row justify-between mb-4">
                 <my-button btnType="primary" @click="NewAlbumModal" class="w-fit">
-                    <div class="flex flex-row gap-2 md:px-3 md:py-1 m-0">
-                        <p class="m-0">آلبوم جدید </p>
-
-                        <span class="m-0">+</span>
+                    <div class="flex flex-col items-center gap-2 md:px-3 md:py-1 m-0">
+                        <span class="m-0">
+                            <album-icon />
+                        </span>
+                        <p class="m-0">
+                            آلبوم جدید
+                        </p>
                     </div>
                 </my-button>
 
