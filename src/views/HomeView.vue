@@ -1,5 +1,7 @@
 <script>
+import axios from "axios";
 import InfoDiv from "../components/InfoDiv.vue";
+import ResTable from "../components/ResTable.vue";
 import albumIcon from "../components/icons/albumIcon.vue";
 import walletIcon from "../components/icons/walletIcon.vue";
 import avacaduIcon from "../components/icons/avacaduIcon.vue";
@@ -7,6 +9,7 @@ import avacaduIcon from "../components/icons/avacaduIcon.vue";
 export default {
     components: {
         InfoDiv,
+        ResTable,
         albumIcon,
         walletIcon,
         avacaduIcon,
@@ -14,13 +17,48 @@ export default {
 
     created() {
         this.username = sessionStorage.getItem('user');
+        this.RequestAlbumData();
     },
 
     data() {
         return {
             username: "نام کاربری",
+
+            albumData: [],
+            isGettingData: false,
+
         };
     },
+
+    methods: {
+        async RequestAlbumData() {
+
+            this.isGettingData = true;
+
+            var token = sessionStorage.getItem("bearer");
+
+            if (token === null) { return null };
+
+
+            await axios({
+                method: 'get',
+                url: this.$baseUrl + 'Contract/List/Avacadu',
+
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+
+            }).then(response => {
+                this.albumData = response.data.data;
+                this.HandleLazyAlbum(this.albumData);
+
+            }).catch(error => {
+                console.log(error);
+            });
+
+            this.isGettingData = false;
+        },
+    }
 }
 </script>
 
@@ -82,18 +120,6 @@ export default {
             </div>
         </div>
 
-        <!-- <div>
-            <div class="w-full ml-0 flex flex-wrap justify-center 2md:justify-around">
-                <info-div bg-color="red" title="64455 تومان" caption="سقف اعتبار" />
-
-                <info-div bg-color="lightBlue" title="64455 تومان" caption="اعتبار فعلی" />
-
-                <info-div bg-color="green" title="64455 تومان" caption="تعداد آلبوم های ثبت شده" />
-
-                <info-div bg-color="purple" title="64455 تومان" caption="تعداد آواکادو های ثبت شده" />
-            </div>
-        </div> -->
-        <div class="h-16"></div>
-
+        <res-table :table-data="albumData" :is-album="false" height="h-[50vh]" />
     </main>
 </template>
