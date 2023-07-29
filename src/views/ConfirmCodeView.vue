@@ -195,8 +195,8 @@ export default {
 
     <main>
         <div class="w-full">
-            <div class="mt-28 w-80 mx-auto rounded-ava10">
-                <div class="h-8"></div>
+            <div class="w-80 mx-auto rounded-ava10">
+                <div class="h-32"></div>
                 <!-- ac logo -------------------------------------------------------- -->
                 <div class="w-full">
                     <img class="m-auto" src="../assets/images/acLogo.svg" alt="Avacadu Logo">

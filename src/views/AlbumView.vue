@@ -51,6 +51,6 @@ export default {
             </div>
         </div>
 
-        <custom-table :is-album="true" height="md:h-full h-[62vh]" />
+        <custom-table :is-album="true" height="h-[62.5vh]" />
     </main>
 </template>

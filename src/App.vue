@@ -36,7 +36,7 @@ export default {
 </script>
 
 <template>
-    <div v-if="$route.name === 'login'">
+    <div class="bg-white h-[100vh]" v-if="$route.name === 'login' || $route.name === 'confirmCode'">
         <RouterView />
     </div>
 

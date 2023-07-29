@@ -241,7 +241,7 @@ export default {
 
             </table>
         </div>
-        <div v-if="isGettingData" class="bg-white h-full flex items-center justify-center">
+        <div v-if="isGettingData" class="bg-white h-[60%] flex items-center justify-center">
             <p class="mt-3 text-ava-green font-yekanX text-sm">
                 درحال دریافت
             </p>
@@ -249,7 +249,15 @@ export default {
             <div class="ml-2 spinner-border spinner-border-sm text-ava-green" role="status">
             </div>
         </div>
-        <div v-if="!isGettingData && showRequestDataBtn" class="flex justify-center bg-white rounded-b-ava10">
+
+        <div v-if="!isGettingData && albumData.length === 0" class="bg-white h-[60%] flex items-center justify-center">
+            <p class="mt-3 text-ava-green font-yekanX text-sm">
+                اطلاعاتی برای نمایش وجود ندارد
+            </p>
+        </div>
+
+        <div v-if="!isGettingData && showRequestDataBtn && albumData.length > 0"
+            class="flex justify-center bg-white rounded-b-ava10">
             <p @click="RequestMoreData" class="mt-3 text-ava-green font-yekanX text-sm cursor-pointer">
                 نمایش بیشتر
             </p>
@@ -343,7 +351,7 @@ export default {
                 </div>
             </div>
         </div>
-        <div v-if="isGettingData" class="bg-white h-full flex items-center justify-center">
+        <div v-if="isGettingData" class="bg-white h-[70%] flex items-center justify-center">
             <p class="mt-3 text-ava-green font-yekanX text-sm">
                 درحال دریافت
             </p>
@@ -351,7 +359,15 @@ export default {
             <div class="ml-2 spinner-border spinner-border-sm text-ava-green" role="status">
             </div>
         </div>
-        <div v-if="!isGettingData && showRequestDataBtn" class="flex justify-center bg-white rounded-b-ava10">
+
+        <div v-if="!isGettingData && albumData.length === 0" class="bg-white h-[50%] flex items-center justify-center">
+            <p class="mt-3 text-ava-green font-yekanX text-sm">
+                اطلاعاتی ثبت شده ای وجود ندارد
+            </p>
+        </div>
+
+        <div v-if="!isGettingData && showRequestDataBtn && albumData.length > 0"
+            class="flex justify-center bg-white rounded-b-ava10">
             <p @click="RequestMoreData" class="mt-3 text-ava-green font-yekanX text-sm cursor-pointer">
                 نمایش بیشتر
             </p>
