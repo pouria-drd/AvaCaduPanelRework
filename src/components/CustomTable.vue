@@ -161,7 +161,7 @@ export default {
 </script>
 
 <template>
-    <qr-modal v-if="showQRModal" :show-q-r-card="showQRModal" :unique-key="selectedUniqueKey"
+    <qr-modal v-show="showQRModal" v-if="showQRModal" :show-q-r-card="showQRModal" :unique-key="selectedUniqueKey"
         @update-showQRCard="showQRModal = $event" />
 
     <div v-if="!isMobile" v-show="!isMobile" :class="[containerClass, height]">
