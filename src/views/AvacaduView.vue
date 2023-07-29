@@ -1,11 +1,7 @@
 <script>
-import axios from "axios";
-import PersianDate from "persian-date";
-import momentTimeZone from 'moment-timezone';
 import MyButton from "../components/MyButton.vue";
 import qrIcon from "../components/icons/qrIcon.vue";
-import TableStatus from "../components/TableStatus.vue";
-import TableAccess from "../components/TableAccess.vue";
+import CustomTable from "../components/CustomTable.vue";
 import avacaduIcon from "../components/icons/avacaduIcon.vue";
 
 export default {
@@ -13,96 +9,16 @@ export default {
         qrIcon,
         MyButton,
         avacaduIcon,
-        TableStatus,
-        TableAccess,
-    },
-
-    created() {
-        this.RequestAvacaduData();
+        CustomTable,
     },
 
     data() {
         return {
-            lazyAlbum: [],
-            avacaduData: [],
 
-            isGettingData: false,
-            showRequestDataBtn: true,
-
-            lengthMultiplier: 2,
-            dataLengthControll: 3,
-
-            selectedUniqueKey: null,
         };
     },
 
     methods: {
-        async RequestAvacaduData() {
-
-            this.isGettingData = true;
-
-            var token = sessionStorage.getItem("bearer");
-
-            if (token === null) { return null };
-
-
-            await axios({
-                method: 'get',
-                url: this.$baseUrl + 'Contract/List/Avacadu',
-
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-
-            }).then(response => {
-                this.avacaduData = response.data.data;
-                this.HandleLazyAlbum(this.avacaduData);
-
-            }).catch(error => {
-                console.log(error);
-            });
-
-            this.isGettingData = false;
-        },
-
-        HandleLazyAlbum(lazyData) {
-            if (lazyData.length >= this.dataLengthControll) {
-                this.lazyAlbum = lazyData.slice(0, this.dataLengthControll);
-
-            } else {
-                this.lazyAlbum = lazyData;
-            }
-        },
-
-        RequestMoreData() {
-            this.lazyAlbum = this.avacaduData.slice(0, this.lazyAlbum.length *
-                this.lengthMultiplier);
-
-            if (this.lazyAlbum.length === this.avacaduData.length) {
-                this.showRequestDataBtn = false;
-
-            } else {
-                this.showRequestDataBtn = true;
-            }
-        },
-
-        OpenQRModal(key) {
-            this.selectedUniqueKey = "https://link.avacadu.ir/album/" + key;
-            this.showQRModal = true;
-        },
-
-        ConvertToPersianDate(dateToConvert) {
-
-            let date = new Date(dateToConvert);
-            let persian_date = new PersianDate(date);
-
-            return {
-                time: momentTimeZone.utc(dateToConvert).tz('Asia/Tehran').format('HH:mm'), // Tehran time
-
-                date: persian_date.format("YYYY/MM/DD"),
-            }
-        },
-
         NewAvacaduModal() {
             console.log(0);
         }
@@ -134,112 +50,7 @@ export default {
                 </p>
             </div>
         </div>
-        <!-- ---------------------------------------------------------------------- -->
-        <div class="p-3 flex justify-end bg-white rounded-t-ava10">
-            <p class="text-ava-black my-auto font-bjn text-xl font-semibold">
-                لیست آواکادو
-            </p>
-        </div>
-        <div class="flex flex-col overflow-x-auto overflow-y-auto bg-white">
-            <table class="bg-white">
-                <thead class="bg-ava-th-bg font-yekanX text-center text-ava-gray text-xs sticky top-0">
-                    <tr>
-                        <th scope="col" class="px-6 py-3">
-                            عملیات
-                        </th>
 
-                        <th scope="col" class="px-6 py-3">
-                            دسترسی
-                        </th>
-
-                        <th scope="col" class="px-6 py-3">
-                            وضعیت
-                        </th>
-
-                        <th scope="col" class="px-6 py-3">
-                            شماره تماس
-                        </th>
-
-                        <th scope="col" class="px-6 py-3">
-                            شناسه
-                        </th>
-
-                        <th scope="col" class="px-6 py-3">
-                            تاریخ ثبت
-                        </th>
-                    </tr>
-                </thead>
-                <tbody v-if="!isGettingData" class="text-center">
-                    <tr v-for="avacadu in lazyAlbum" :key="avacadu.id"
-                        class="bg-white border-b border-ava-border-bg font-yekanX text-sm text-ava-gray">
-
-                        <td>
-                            <qr-icon class="cursor-pointer mx-auto hover:text-black transition"
-                                @click="OpenQRModal(avacadu.uniqueKey)" />
-                        </td>
-
-                        <td>
-                            <table-access :is-private="avacadu.isPrivate" />
-                        </td>
-
-                        <td>
-                            <table-status :is-active="avacadu.isActive" />
-                        </td>
-
-                        <td class="px-6 py-4">
-                            {{ avacadu.phoneNumber }}
-                        </td>
-
-                        <td class="px-6 py-4">
-                            {{ avacadu.contractGuid }}
-                        </td>
-
-                        <td class="ss02 px-0 py-4 block">
-                            <div class="flex my-auto items-center justify-center flex-col content-center">
-                                <p class="font-yekanX m-0 text-ava-black">
-                                    {{ ConvertToPersianDate(avacadu.createdAt).date }}
-                                </p>
-
-                                <p class="font-yekanX m-0 text-xs text-ava-gray">
-                                    {{ ConvertToPersianDate(avacadu.createdAt).time }}
-                                </p>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-                <tfoot class="text-center">
-                    <tr>
-                        <td class="bg-white">
-
-                        </td>
-                        <td class="bg-white">
-
-                        </td>
-                        <td class="bg-white">
-                            <div v-if="isGettingData" class="bg-white flex items-center justify-center">
-                                <p class="mt-3 text-ava-green font-yekanX text-sm">
-                                    درحال دریافت
-
-                                </p>
-
-                                <div class="ml-2 spinner-border spinner-border-sm text-ava-green" role="status">
-                                </div>
-                            </div>
-                        </td>
-                        <td class="bg-white">
-
-                        </td>
-                        <td class="bg-white">
-
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-        <div v-if="!isGettingData && showRequestDataBtn" class="flex justify-center bg-white rounded-b-ava10">
-            <p @click="RequestMoreData" class="mt-3 text-ava-green font-yekanX text-sm cursor-pointer">
-                نمایش بیشتر
-            </p>
-        </div>
+        <custom-table :is-album="false" height="md:h-full h-[62vh]" />
     </main>
 </template>

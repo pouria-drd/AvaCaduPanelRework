@@ -1,7 +1,5 @@
 <script>
-import axios from "axios";
 import InfoDiv from "../components/InfoDiv.vue";
-import ResTable from "../components/ResTable.vue";
 import albumIcon from "../components/icons/albumIcon.vue";
 import walletIcon from "../components/icons/walletIcon.vue";
 import avacaduIcon from "../components/icons/avacaduIcon.vue";
@@ -9,7 +7,6 @@ import avacaduIcon from "../components/icons/avacaduIcon.vue";
 export default {
     components: {
         InfoDiv,
-        ResTable,
         albumIcon,
         walletIcon,
         avacaduIcon,
@@ -17,48 +14,13 @@ export default {
 
     created() {
         this.username = sessionStorage.getItem('user');
-        this.RequestAlbumData();
     },
 
     data() {
         return {
             username: "نام کاربری",
-
-            albumData: [],
-            isGettingData: false,
-
         };
     },
-
-    methods: {
-        async RequestAlbumData() {
-
-            this.isGettingData = true;
-
-            var token = sessionStorage.getItem("bearer");
-
-            if (token === null) { return null };
-
-
-            await axios({
-                method: 'get',
-                url: this.$baseUrl + 'Contract/List/Avacadu',
-
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-
-            }).then(response => {
-                this.albumData = response.data.data;
-                this.HandleLazyAlbum(this.albumData);
-
-            }).catch(error => {
-                console.log(error);
-            });
-
-            this.isGettingData = false;
-        },
-    }
 }
 </script>
 
@@ -104,7 +66,7 @@ export default {
 
                 <div class="flex-col 2md:justify-end justify-center">
                     <div class="flex w-full 2md:justify-end justify-center gap-2">
-                        <h1 class="font-bjn text-ava-black text-[34px] inline">
+                        <h1 class="font-bjn text-ava-black font-bold text-[34px] inline">
                             {{ username }}
                         </h1>
 
@@ -119,7 +81,5 @@ export default {
                 </div>
             </div>
         </div>
-
-        <res-table :table-data="albumData" :is-album="false" height="h-[50vh]" />
     </main>
 </template>
