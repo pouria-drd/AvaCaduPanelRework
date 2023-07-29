@@ -76,7 +76,7 @@ export default {
                     </div>
 
                     <p class="font-yekanX text-ava-gray text-sm mt-1">
-                        اینجا شما میتوانید لیست آلبوم خود را مدیریت نمایید
+                        اینجا شما می توانید لیست آلبوم خود را مدیریت نمایید
                     </p>
                 </div>
             </div>
