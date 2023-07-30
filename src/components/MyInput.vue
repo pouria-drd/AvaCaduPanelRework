@@ -60,7 +60,7 @@ export default {
 <style scoped>
 .base-input {
     /* direction: rtl; */
-    @apply bg-ava-bg-gray w-full h-12 text-ava-green py-2 px-2 font-yekanX text-base;
+    @apply bg-ava-bg-gray w-full h-12 text-ava-green py-2 px-3 font-yekanX text-base;
 }
 
 .base-input:focus {

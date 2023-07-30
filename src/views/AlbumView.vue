@@ -3,6 +3,7 @@ import MyButton from "../components/MyButton.vue";
 import qrIcon from "../components/icons/qrIcon.vue";
 import CustomTable from "../components/CustomTable.vue";
 import albumIcon from "../components/icons/albumIcon.vue";
+import NewAlbumModal from "../components/NewAlbumModal.vue";
 
 export default {
     components: {
@@ -10,23 +11,27 @@ export default {
         MyButton,
         albumIcon,
         CustomTable,
+        NewAlbumModal,
     },
 
     data() {
         return {
-
+            showAlbumModal: false,
         };
     },
 
     methods: {
         NewAlbumModal() {
-            console.log(0);
+            this.showAlbumModal = true;
         }
     },
 };
 </script>
 
 <template>
+    <new-album-modal v-if="showAlbumModal" :show-album-modal="showAlbumModal"
+        @update-showAlbumModal="showAlbumModal = $event" />
+
     <main class="flex flex-col h-[80vh]">
         <div class="flex flex-col-reverse gap-2 md:flex-row justify-between mb-4">
             <my-button btnType="primary" @click="NewAlbumModal" class="w-fit">

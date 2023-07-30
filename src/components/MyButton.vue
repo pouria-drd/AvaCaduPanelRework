@@ -26,7 +26,7 @@ export default {
         :disabled="busy || !canSendData">
 
         <span v-if="busy" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        <span v-if="busy" class="ml-1">لطفا منتظر بمانید</span>
+        <span v-if="busy" class="ml-1">لطفا صبر کنید</span>
 
         <slot v-if="!busy" />
     </button>

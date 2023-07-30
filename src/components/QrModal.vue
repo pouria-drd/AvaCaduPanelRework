@@ -51,8 +51,8 @@ export default {
 <template>
     <div v-if="showQRCard">
         <div class="overlay flex items-center justify-center">
-            <div class="w-80 p-4 bg-white rounded-md flex-col gap-10 z-50">
-                <div class="flex items-center justify-between h-10">
+            <div class="w-[90%] md:w-80 p-4 bg-white rounded-md flex flex-col gap-2 z-50">
+                <div class="flex items-center justify-between">
                     <button @click="CloseCard">
                         <close-icon class="text-ava-black" />
                     </button>

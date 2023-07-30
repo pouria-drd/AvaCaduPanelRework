@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: "MyInput",
+  name: "PhoneInput",
 
   props: {
     inputStyle: {
@@ -67,7 +67,8 @@ export default {
         v-model="numericInput" pattern="[0-9]" /> -->
 
       <input @keyup="FilterNonNumeric($event.target)" :class="['ss02', 'base-input', { 'error': hasError }]" type="tel"
-        maxlength="10" pattern="[0-9]" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)">
+        maxlength="10" pattern="[0-9]" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)"
+        placeholder="شماره همراه">
     </div>
 
 
@@ -86,7 +87,7 @@ export default {
 <style scoped>
 .base-input {
   direction: ltr;
-  @apply bg-ava-bg-gray w-full h-12 text-ava-green rounded-r-ava10 py-2 px-2 font-yekanX text-base;
+  @apply bg-ava-bg-gray w-full h-12 text-ava-green rounded-r-ava10 py-2 px-3 font-yekanX text-base;
 }
 
 .base-input:focus {
@@ -95,6 +96,7 @@ export default {
 }
 
 .base-input::placeholder {
+  text-align: right;
   @apply text-ava-gray-2 text-sm;
 }
 
