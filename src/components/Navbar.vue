@@ -54,7 +54,9 @@ export default {
 <template>
     <nav class="h-[10vh] pb-px">
         <div class="bg-white nav-shadow flex justify-between 2md:justify-end items-center h-full">
-            <img class="w-7 ml-4 2md:mr-4" src="../assets/images/acLogo.svg" alt="AvacaduLogo">
+            <a href="/home">
+                <img class="w-7 ml-4 2md:mr-4" src="../assets/images/acLogo.svg" alt="AvacaduLogo">
+            </a>
 
             <menu-icon v-if="!isOpen" @click="ToggleMenu"
                 class="mr-4 cursor-pointer 2md:hidden text-ava-gray hover:text-ava-black transition" />
