@@ -211,7 +211,7 @@ export default {
                             <p v-else class="text-center m-0">
                                 عکس های آلبوم شخصی خود را اینجا بارگذاری کنید یا
                                 <br>
-                                <u>کلیک کنید</u>
+                                <u class="text-ava-green no-underline">کلیک کنید</u>
                             </p>
                         </div>
                     </label>

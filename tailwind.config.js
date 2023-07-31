@@ -15,6 +15,7 @@ module.exports = {
         "ava-gray-2": "#959EA6",
         "ava-orange": "#FC573B",
         "ava-success": "#4CAF50",
+        "ava-info": "#5464B4",
 
         "ava-info": "#5464B4",
 
