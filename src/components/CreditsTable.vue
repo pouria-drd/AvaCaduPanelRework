@@ -4,7 +4,7 @@ import PersianDate from "persian-date";
 import momentTimeZone from 'moment-timezone';
 
 export default {
-    name: "C2CTable",
+    name: "CreditsTable",
 
     props: {
         height: {
@@ -14,7 +14,7 @@ export default {
     },
 
     created() {
-        this.RequestC2CData();
+        this.RequstCreditsData();
     },
 
     mounted() {
@@ -34,8 +34,10 @@ export default {
             breakpoint: 768,
 
             priceFormat: new Intl.NumberFormat("fa-Ir"),
-            C2CData: [],
-            lazyC2CData: [],
+
+            creditsData: [],
+            lazyCreditsData: [],
+
             isGettingData: true,
             showRequestDataBtn: true,
 
@@ -49,8 +51,7 @@ export default {
     },
 
     methods: {
-        async RequestC2CData() {
-
+        async RequstCreditsData() {
             this.isGettingData = true;
 
             var token = sessionStorage.getItem("bearer");
@@ -60,15 +61,15 @@ export default {
 
             await axios({
                 method: 'get',
-                url: this.$baseUrl + 'Wallet/CardToCards',
+                url: this.$baseUrl + 'Wallet/Balances',
 
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
 
             }).then(response => {
-                this.C2CData = response.data.data;
-                this.HandleLazyC2CData(this.C2CData);
+                this.creditsData = response.data.data;
+                this.HandleLazyCreditsData(this.creditsData);
 
             }).catch(error => {
                 console.log(error);
@@ -77,25 +78,33 @@ export default {
             this.isGettingData = false;
         },
 
-        HandleLazyC2CData(data) {
+        HandleLazyCreditsData(data) {
             if (data.length >= this.dataLengthControll) {
-                this.lazyC2CData = data.slice(0, this.dataLengthControll);
+                this.lazyCreditsData = data.slice(0, this.dataLengthControll);
 
             } else {
-                this.lazyC2CData = data;
+                this.lazyCreditsData = data;
             }
         },
 
-        RequestMoreC2CData() {
-            this.lazyC2CData = this.C2CData.slice(0, this.lazyC2CData.length *
+        RequestMoreCreditsData() {
+            this.lazyCreditsData = this.creditsData.slice(0, this.lazyCreditsData.length *
                 this.lengthMultiplier);
 
-            if (this.lazyC2CData.length === this.C2CData.length) {
+            if (this.lazyCreditsData.length === this.creditsData.length) {
                 this.showRequestDataBtn = false;
 
             } else {
                 this.showRequestDataBtn = true;
             }
+        },
+
+        CalculateChangeAmount(currentAmount, lastAmount) {
+            let dif = currentAmount - lastAmount;
+            if (dif > 0) {
+                dif = '+' + dif;
+            }
+            return dif
         },
 
         ConvertToPersianDate(dateToConvert) {
@@ -121,9 +130,10 @@ export default {
 
 <template>
     <div v-if="!isMobile" v-show="!isMobile" :class="[containerClass, height]">
+
         <div class="p-3 flex justify-end bg-white rounded-t-ava10">
             <p class="text-ava-black my-auto font-bjn text-xl font-semibold">
-                لیست کارت به کارت
+                لیست آخرین اعتبار
             </p>
         </div>
         <div class="flex flex-col overflow-x-auto overflow-y-auto bg-white">
@@ -131,19 +141,19 @@ export default {
                 <thead class="bg-ava-th-bg font-yekanX text-center text-ava-gray text-xs sticky top-0">
                     <tr>
                         <th scope="col" class="px-6 py-3">
-                            توضیحات
+                            بابت
                         </th>
 
                         <th scope="col" class="px-6 py-3">
-                            وضعیت
+                            اعتبار باقی مانده
                         </th>
 
                         <th scope="col" class="px-6 py-3">
-                            مبلغ
+                            مقدار تغییر
                         </th>
 
                         <th scope="col" class="px-6 py-3">
-                            شماره پیگری
+                            اعتبار قبلی
                         </th>
 
                         <th scope="col" class="px-6 py-3">
@@ -152,48 +162,33 @@ export default {
                     </tr>
                 </thead>
                 <tbody v-if="!isGettingData" class="text-center">
-                    <tr v-for="(item, index) in lazyC2CData" :key="item.id"
+                    <tr v-for="(item, index) in lazyCreditsData" :key="item.id"
                         class="bg-white border-b border-ava-border-bg font-yekanX text-sm text-ava-gray">
-                        <td>
-                            <p class="m-0 font-yekanX text-xs">
-                                {{ item.description }}
-                            </p>
-                        </td>
+                        <td>{{ item.changeType.name }}</td>
+                        <td>{{ this.priceFormat.format(item.currentAmount) }}</td>
 
-                        <td v-if="item.isConfirmed">
-                            <div class="flex items-center justify-center">
-                                <div
-                                    class="bg-ava-bg-alert-success h-8 w-20 flex items-center justify-center rounded-ava18">
-                                    <p class="m-0 text-ava-success text-xs">
-                                        تایید شده
-                                    </p>
-                                </div>
+
+                        <td v-if="item.isIncreasing">
+                            <div
+                                class="bg-ava-info-bg-green text-ava-success rounded-ava18 h-8 w-20 flex justify-center text-center mx-auto">
+                                <p class="m-0 text-ava-success text-xs my-auto">
+                                    {{
+                                        this.priceFormat.format(CalculateChangeAmount(item.currentAmount, item.lastAmount)) }}
+                                </p>
                             </div>
                         </td>
                         <td v-else>
-                            <div v-if="item.isRejected" class="flex items-center justify-center">
-                                <div class="bg-ava-bg-alert-error h-8 w-20 flex items-center justify-center rounded-ava18">
-                                    <p class="m-0 text-ava-orange text-xs">
-                                        رد شده
-                                    </p>
-                                </div>
-                            </div>
-                            <div v-else>
-                                <div class="bg-ava-bg-alert-info h-8 w-20 flex items-center justify-center rounded-ava18">
-                                    <p class="m-0 text-ava-info text-xs">
-                                        درحال بررسی
-                                    </p>
-                                </div>
+                            <div
+                                class="bg-ava-info-bg-red text-ava-orange rounded-ava18 h-8 w-20 flex justify-center text-center mx-auto">
+                                <p class="m-0 text-ava-orange text-xs my-auto">
+                                    {{
+                                        this.priceFormat.format(CalculateChangeAmount(item.currentAmount, item.lastAmount)) }}
+                                </p>
                             </div>
                         </td>
 
-
                         <td class="px-6 py-4">
-                            {{ this.priceFormat.format(item.amount) }}
-                        </td>
-
-                        <td class="px-6 py-4">
-                            {{ item.recoveryNumber }}
+                            {{ this.priceFormat.format(item.lastAmount) }}
                         </td>
 
                         <td>
@@ -219,15 +214,15 @@ export default {
             </div>
         </div>
 
-        <div v-if="!isGettingData && C2CData.length === 0" class="bg-white h-[60%] flex items-center justify-center">
+        <div v-if="!isGettingData && creditsData.length === 0" class="bg-white h-[60%] flex items-center justify-center">
             <p class="mt-3 text-ava-green font-yekanX text-sm">
                 اطلاعاتی برای نمایش وجود ندارد
             </p>
         </div>
 
-        <div v-if="!isGettingData && showRequestDataBtn && C2CData.length > 0"
+        <div v-if="!isGettingData && showRequestDataBtn && creditsData.length > 0"
             class="flex justify-center bg-white rounded-b-ava10">
-            <p @click="RequestMoreC2CData" class="mt-3 text-ava-green font-yekanX text-sm cursor-pointer">
+            <p @click="RequestMoreCreditsData" class="mt-3 text-ava-green font-yekanX text-sm cursor-pointer">
                 نمایش بیشتر
             </p>
         </div>
@@ -241,7 +236,7 @@ export default {
             </p>
         </div>
         <div v-if="!isGettingData" class="flex flex-col gap-3 p-4 ss02 font-yekanX rounded-b-ava10 overflow-y-auto">
-            <div v-for="(item, index) in lazyC2CData" :key="index" class="rounded-ava10 border-2 p-4">
+            <div v-for="(item, index) in lazyCreditsData" :key="index" class="rounded-ava10 border-2 p-4">
                 <div class="flex flex-col">
                     <div class="flex flex-row justify-between">
 
@@ -265,63 +260,59 @@ export default {
 
                     <div class="flex flex-row justify-between">
                         <p class="m-0 text-ava-gray text-sm">
-                            {{ item.recoveryNumber }}
+                            {{ this.priceFormat.format(item.lastAmount) }}
                         </p>
 
                         <p class="m-0 text-ava-black text-sm">
-                            شماره پیگری
+                            اعتبار قبلی
                         </p>
                     </div>
 
                     <hr class="text-ava-gray">
+
                     <div class="flex flex-row justify-between">
-                        <div v-if="item.isConfirmed">
-                            <div class="bg-ava-bg-alert-success h-8 w-20 flex items-center justify-center rounded-ava18">
-                                <p class="m-0 text-ava-success text-xs">
-                                    تایید شده
+                        <div v-if="item.isIncreasing">
+                            <div
+                                class="bg-ava-info-bg-green text-ava-success rounded-ava18 h-8 w-20 flex justify-center text-center mx-auto">
+                                <p class="m-0 text-ava-success text-xs my-auto">
+                                    {{
+                                        this.priceFormat.format(CalculateChangeAmount(item.currentAmount, item.lastAmount)) }}
+                                </p>
+                            </div>
+                        </div>
+                        <div v-else>
+                            <div
+                                class="bg-ava-info-bg-red text-ava-orange rounded-ava18 h-8 w-20 flex justify-center text-center mx-auto">
+                                <p class="m-0 text-ava-orange text-xs my-auto">
+                                    {{
+                                        this.priceFormat.format(CalculateChangeAmount(item.currentAmount, item.lastAmount)) }}
                                 </p>
                             </div>
                         </div>
 
-                        <div v-else>
-                            <div v-if="item.isRejected" class="flex items-center justify-center">
-                                <div class="bg-ava-bg-alert-error h-8 w-20 flex items-center justify-center rounded-ava18">
-                                    <p class="m-0 text-ava-orange text-xs">
-                                        رد شده
-                                    </p>
-                                </div>
-                            </div>
-                            <div v-else>
-                                <div class="bg-ava-bg-alert-info h-8 w-20 flex items-center justify-center rounded-ava18">
-                                    <p class="m-0 text-ava-info text-xs">
-                                        درحال بررسی
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
                         <p class="m-0 text-ava-black text-sm">
-                            وضعیت
+                            مقدار تغییر
                         </p>
                     </div>
 
                     <hr class="text-ava-gray">
 
                     <div class="flex flex-row justify-between">
-                        <p class="m-0 text-ava-gray text-sm">{{ item.description }}</p>
-
-                        <p class="m-0 text-ava-black text-sm">
-                            توضیحات
+                        <p class="m-0 text-ava-gray text-sm">
+                            {{ this.priceFormat.format(item.currentAmount) }}
                         </p>
+                        <p class="m-0 text-ava-black text-sm">
+                            اعتبار باقی مانده </p>
                     </div>
 
                     <hr class="text-ava-gray">
 
                     <div class="flex flex-row justify-between">
-                        <p class="m-0 text-ava-gray text-sm">{{ item.description }}</p>
-
+                        <p class="m-0 text-ava-gray text-sm">
+                            {{ item.changeType.name }}
+                        </p>
                         <p class="m-0 text-ava-black text-sm">
-                            توضیحات
+                            بابت
                         </p>
                     </div>
                 </div>
@@ -336,15 +327,15 @@ export default {
             </div>
         </div>
 
-        <div v-if="!isGettingData && C2CData.length === 0" class="bg-white h-[50%] flex items-center justify-center">
+        <div v-if="!isGettingData && creditsData.length === 0" class="bg-white h-[50%] flex items-center justify-center">
             <p class="mt-3 text-ava-green font-yekanX text-sm">
                 اطلاعاتی ثبت شده ای وجود ندارد
             </p>
         </div>
 
-        <div v-if="!isGettingData && showRequestDataBtn && C2CData.length > 0"
+        <div v-if="!isGettingData && showRequestDataBtn && creditsData.length > 0"
             class="flex justify-center bg-white rounded-b-ava10">
-            <p @click="RequestMoreC2CData" class="mt-3 text-ava-green font-yekanX text-sm cursor-pointer">
+            <p @click="RequestMoreCreditsData" class="mt-3 text-ava-green font-yekanX text-sm cursor-pointer">
                 نمایش بیشتر
             </p>
         </div>
