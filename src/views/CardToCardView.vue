@@ -42,6 +42,6 @@ export default {
                 </p>
             </div>
         </div>
-        <c-2-c-table height="max-h-[62.5vh]" />
+        <c-2-c-table height="min-h-[50vh] max-h-[62.5vh]" />
     </main>
 </template>
