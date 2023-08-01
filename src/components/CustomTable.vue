@@ -146,14 +146,16 @@ export default {
         },
 
         ConvertToPersianDate(dateToConvert) {
-
             let date = new Date(dateToConvert);
             let persian_date = new PersianDate(date);
 
-            return {
-                time: momentTimeZone.utc(dateToConvert).tz('Asia/Tehran').format('HH:mm'), // Tehran time
+            let weekdays = ['یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه', 'شنبه'];
+            let weekdayIndex = date.getDay();
 
+            return {
                 date: persian_date.format("YYYY/MM/DD"),
+
+                time: momentTimeZone.utc(dateToConvert).tz('Asia/Tehran').format(weekdays[weekdayIndex] + ' HH:mm'),
             }
         },
     }
@@ -282,12 +284,12 @@ export default {
                                 {{ ConvertToPersianDate(item.createdAt).date }}
                             </p>
 
-                            <p class="font-yekanX m-0 text-xs text-ava-gray">
+                            <p class="font-yekanX m-0 text-xs text-left text-ava-gray">
                                 {{ ConvertToPersianDate(item.createdAt).time }}
                             </p>
                         </div>
 
-                        <p class="m-0 text-ava-black text-sm">
+                        <p class="m-0 text-ava-black text-sm text-right">
                             تاریخ ثبت
                         </p>
 
