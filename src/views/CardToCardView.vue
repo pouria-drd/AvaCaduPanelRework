@@ -21,7 +21,7 @@ export default {
 <template>
     <main class="flex flex-col h-[80vh]">
         <div class="flex flex-col-reverse gap-2 md:flex-row justify-between mb-4">
-            <my-button btnType="primary" @click="NewC2CModal" class="w-fit">
+            <my-button btnType="primary" @click="NewC2CModal" class="w-fit m-0">
                 <div class="flex flex-col items-center gap-2 md:px-3 md:py-1 m-0">
                     <span class="m-0">
                         <card2CardIcon />

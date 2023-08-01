@@ -73,15 +73,3 @@ export default {
         </div>
     </div>
 </template>
-
-<style scoped>
-.overlay {
-    top: 0;
-    left: 0;
-    z-index: 10;
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    background-color: rgba(0, 0, 0, 0.4);
-}
-</style>

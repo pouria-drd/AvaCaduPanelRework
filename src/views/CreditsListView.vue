@@ -1,10 +1,12 @@
 <script>
+import C2CModal from '../components/C2CModal.vue';
 import MyButton from '../components/MyButton.vue';
 import CreditsTable from '../components/CreditsTable.vue';
 import walletIcon from "../components/icons/walletIcon.vue";
 
 export default {
     components: {
+        C2CModal,
         MyButton,
         walletIcon,
         CreditsTable,
@@ -19,9 +21,11 @@ export default {
 </script>
 
 <template>
+    <c2-c-modal />
+
     <main class="flex flex-col h-[80vh]">
         <div class="flex flex-col-reverse gap-2 md:flex-row justify-between mb-4">
-            <my-button btnType="primary" @click="NewCreditsModal" class="w-fit">
+            <my-button btnType="primary" @click="NewCreditsModal" class="w-fit m-0">
                 <div class="flex flex-col items-center gap-2 md:px-3 md:py-1 m-0">
                     <span class="m-0">
                         <wallet-icon />
@@ -43,6 +47,6 @@ export default {
             </div>
         </div>
 
-        <credits-table />
+        <credits-table height="min-h-[55vh] max-h-[62.5vh]" />
     </main>
 </template>
