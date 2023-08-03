@@ -127,7 +127,7 @@ select::-ms-expand {
 }
 
 .my-select {
-  @apply px-4 py-3 cursor-pointer border-gray-200 rounded-ava10 text-sm bg-ava-bg-gray font-yekanX text-ava-gray ss02 w-80;
+  @apply px-4 py-3 border-gray-200 rounded-ava10 text-sm bg-ava-bg-gray font-yekanX text-ava-gray ss02;
 }
 
 /* ---------------------------------------------------------------------- */

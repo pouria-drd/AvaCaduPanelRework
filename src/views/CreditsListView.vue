@@ -1,31 +1,38 @@
 <script>
-import C2CModal from '../components/C2CModal.vue';
 import MyButton from '../components/MyButton.vue';
 import CreditsTable from '../components/CreditsTable.vue';
 import walletIcon from "../components/icons/walletIcon.vue";
+import WalletChoicesModal from '../components/WalletChoicesModal.vue';
 
 export default {
     components: {
-        C2CModal,
         MyButton,
         walletIcon,
         CreditsTable,
+        WalletChoicesModal,
+    },
+
+    data() {
+        return {
+            openWalletChoicesModal: false,
+        };
     },
 
     methods: {
-        NewCreditsModal() {
-            this.showAlbumModal = true;
+        OpenWalletChoicesModal() {
+            this.openWalletChoicesModal = true;
         }
     },
 }
 </script>
 
 <template>
-    <c2-c-modal />
+    <wallet-choices-modal v-if="openWalletChoicesModal" :show-wallet-choices-modal="openWalletChoicesModal"
+        @update-show-wallet-choices-modal="openWalletChoicesModal = $event" />
 
     <main class="flex flex-col h-[80vh]">
         <div class="flex flex-col-reverse gap-2 md:flex-row justify-between mb-4">
-            <my-button btnType="primary" @click="NewCreditsModal" class="w-fit m-0">
+            <my-button btnType="primary" @click="OpenWalletChoicesModal" class="w-fit m-0">
                 <div class="flex flex-col items-center gap-2 md:px-3 md:py-1 m-0">
                     <span class="m-0">
                         <wallet-icon />

@@ -191,9 +191,8 @@ export default {
                     </router-link>
                 </div>
 
-
                 <div class="h-full flex flex-shrink flex-grow content-end align-bottom flex-col-reverse">
-                    <div class="decoration-transparent mt-4 text-right flex justify-end text-ava-gray w-full">
+                    <div class="decoration-transparent text-right flex justify-end text-ava-gray w-full">
                         <div class="inline-flex items-center p-[10px]">
                             <a @click="Logout"
                                 class="decoration-transparent font-yekanX text-ava-gray text-sm mr-3 cursor-pointer"

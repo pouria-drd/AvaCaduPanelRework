@@ -3,7 +3,7 @@ import MyButton from "../components/MyButton.vue";
 import qrIcon from "../components/icons/qrIcon.vue";
 import CustomTable from "../components/CustomTable.vue";
 import albumIcon from "../components/icons/albumIcon.vue";
-import NewAlbumModal from "../components/NewAlbumModal.vue";
+import NewAlbumModal from "../components/AlbumModal.vue";
 
 export default {
     components: {

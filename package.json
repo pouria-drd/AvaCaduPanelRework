@@ -13,6 +13,7 @@
     "@vue-hero-icons/solid": "^1.7.2",
     "axios": "^1.4.0",
     "bootstrap": "^5.3.0",
+    "moment-jalaali": "^0.10.0",
     "moment-timezone": "^0.5.43",
     "vue": "^3.3.4",
     "vue-qrcode": "^2.2.0",

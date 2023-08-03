@@ -8,7 +8,7 @@ import uploadIcon from "./icons/uploadIcon.vue";
 import closeImageIcon from "./icons/closeImageicon.vue"
 
 export default {
-    name: 'NewAlbumModal',
+    name: 'AlbumModal',
 
     components: {
         MyInput,

@@ -74,7 +74,7 @@ export default {
 }
 
 .lgreen:hover {
-    @apply bg-ava-green text-white scale-105;
+    @apply bg-ava-green text-white;
 }
 
 .success {
