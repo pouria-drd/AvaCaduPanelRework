@@ -81,9 +81,6 @@ export default {
 
         DateChanged() {
             this.selectedDate = `${this.selectedYear}/${this.selectedMonth}/${this.selectedDay}`;
-            // console.log(this.selectedDate);
-
-            // console.log(JalaaliMoment(this.selectedDate, "jYYYY/jMM/jDD").format("YYYY-MM-DD")); 
         },
 
         SetTodayDate() {
