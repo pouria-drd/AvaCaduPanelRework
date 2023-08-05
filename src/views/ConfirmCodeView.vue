@@ -194,61 +194,63 @@ export default {
         :type="alertType" />
 
     <main>
-        <div class="w-full">
-            <div class="w-80 mx-auto rounded-ava10">
-                <div class="h-32"></div>
-                <!-- ac logo -------------------------------------------------------- -->
-                <div class="w-full">
-                    <img class="m-auto" src="../assets/images/acLogo.svg" alt="Avacadu Logo">
+        <div class="w-full h-full fixed top-0 left-0 z-20 bg-white">
+            <div class="flex h-full items-center justify-center">
+
+                <div class="w-[90%] sm:w-80 flex flex-col gap-4">
+                    <!-- ac logo -------------------------------------------------------- -->
+                    <div class="w-full">
+                        <img class="m-auto" src="../assets/images/acLogo.svg" alt="Avacadu Logo">
+                    </div>
+
+                    <!-- Title -------------------------------------------------------- -->
+                    <div class="w-full text-center ss02">
+                        <h1 class="font-bjn text-ava-black text-3xl font-bold">
+                            کد تایید را وارید کنید
+                        </h1>
+
+                        <p class="text-ava-gray font-yekanX text-xs">
+                            کد پنج رقمی به شماره {{ formData.phoneNumber }} ارسال شد
+                        </p>
+                    </div>
+
+                    <!-- Body -------------------------------------------------------- -->
+                    <div v-if="canResend" class="text-center">
+                        <a class="decoration-transparent font-yekanX text-sm text-ava-green" href="/">
+                            اصلاح شماره موبایل</a>
+                    </div>
+
+                    <div class="flex justify-center">
+                        <input @input="onInput(1)" ref="input1" class="my-input w-12 h-12 mr-3" type="tel" maxlength="1"
+                            v-model="inputData.code1">
+
+                        <input @input="onInput(2)" ref="input2" class="my-input w-12 h-12 mr-3" type="tel" maxlength="1"
+                            v-model="inputData.code2">
+
+                        <input @input="onInput(3)" ref="input3" class="my-input w-12 h-12 mr-3" type="tel" maxlength="1"
+                            v-model="inputData.code3">
+
+                        <input @input="onInput(4)" ref="input4" class="my-input w-12 h-12 mr-3" type="tel" maxlength="1"
+                            v-model="inputData.code4">
+
+                        <input @input="onInput(5)" ref="input5" class="my-input w-12 h-12" type="tel" maxlength="1"
+                            v-model="inputData.code5">
+                    </div>
+
+                    <div class="text-center" v-if="!this.canResend">
+                        <p class="ss02 r2l text-sm font-yekanX text-ava-gray">
+                            {{ FormattedTime }} تا درخواست مجدد
+                        </p>
+                    </div>
+
+                    <div class="text-center">
+                        <my-button class="w-[90%] h-12" btnType="primary" @click="ConfirmCode" :canSendData="CanSendData"
+                            :busy="isProcessing">
+                            تایید و ادامه
+                        </my-button>
+                    </div>
+                    <div class="h-8"></div>
                 </div>
-
-                <!-- Title -------------------------------------------------------- -->
-                <div class="w-full mt-4 text-center ss02">
-                    <h1 class="font-bjn text-ava-black text-3xl font-bold">
-                        کد تایید را وارید کنید
-                    </h1>
-
-                    <p class="text-ava-gray font-yekanX text-xs">
-                        کد پنج رقمی به شماره {{ formData.phoneNumber }} ارسال شد
-                    </p>
-                </div>
-
-                <!-- Body -------------------------------------------------------- -->
-                <div v-if="canResend" class="text-center">
-                    <a class="decoration-transparent font-yekanX text-sm text-ava-green" href="/">
-                        اصلاح شماره موبایل</a>
-                </div>
-
-                <div class="mt-4 flex justify-center">
-                    <input @input="onInput(1)" ref="input1" class="my-input w-12 h-12 mr-3" type="tel" maxlength="1"
-                        v-model="inputData.code1">
-
-                    <input @input="onInput(2)" ref="input2" class="my-input w-12 h-12 mr-3" type="tel" maxlength="1"
-                        v-model="inputData.code2">
-
-                    <input @input="onInput(3)" ref="input3" class="my-input w-12 h-12 mr-3" type="tel" maxlength="1"
-                        v-model="inputData.code3">
-
-                    <input @input="onInput(4)" ref="input4" class="my-input w-12 h-12 mr-3" type="tel" maxlength="1"
-                        v-model="inputData.code4">
-
-                    <input @input="onInput(5)" ref="input5" class="my-input w-12 h-12" type="tel" maxlength="1"
-                        v-model="inputData.code5">
-                </div>
-
-                <div class="mt-4 text-center" v-if="!this.canResend">
-                    <p class="ss02 r2l text-sm font-yekanX text-ava-gray">
-                        {{ FormattedTime }} تا درخواست مجدد
-                    </p>
-                </div>
-
-                <div class="mt-4 text-center">
-                    <my-button class="w-[90%] h-12" btnType="primary" @click="ConfirmCode" :canSendData="CanSendData"
-                        :busy="isProcessing">
-                        تایید و ادامه
-                    </my-button>
-                </div>
-                <div class="h-8"></div>
             </div>
         </div>
     </main>

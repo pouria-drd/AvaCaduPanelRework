@@ -145,17 +145,28 @@ export default {
   <alert v-if="showAlert" :show-alert="showAlert" @update-showAlert="showAlert = $event" :message="alertMessage"
     :type="alertType" />
   <main>
-    <form class="w-full" novalidate @submit.prevent="Login">
-      <div class="w-80 mx-auto rounded-ava10">
-        <div class="h-32"></div>
-        <!-- ac logo -------------------------------------------------------- -->
-        <div class="w-full">
+    <!-- ac logo -------------------------------------------------------- -->
+    <div v-if="isAuthenticated" v-show="isAuthenticated" class="w-full h-full fixed top-0 left-0 z-20 bg-white">
+      <div class="h-full flex items-center justify-center">
+        <div class="flex flex-col gap-3">
           <img class="m-auto" src="../assets/images/acLogo.svg" alt="Avacadu Logo">
-        </div>
 
-        <div v-if="!isAuthenticated">
+          <div class="flex items-center justify-center font-yekanX text-sm text-ava-green">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <span class="ml-1">لطفا صبر کنید</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <form v-if="!isAuthenticated" v-show="!isAuthenticated" class="w-full h-full fixed top-0 left-0 z-20 bg-white"
+      novalidate @submit.prevent="Login">
+      <div class="flex h-full items-center justify-center">
+        <div class="w-[90%] sm:w-80 flex flex-col gap-4">
+          <!-- ac logo -------------------------------------------------------- -->
+          <img class="m-auto" src="../assets/images/acLogo.svg" alt="Avacadu Logo">
           <!-- Title -------------------------------------------------------- -->
-          <div class="w-full mt-4 text-center">
+          <div class="w-full text-center">
             <h1 class="font-bjn text-ava-black text-3xl font-bold">ورود به آواکادو</h1>
 
             <p class="text-ava-gray font-yekanX text-xs">
@@ -169,7 +180,7 @@ export default {
           </div>
 
           <!-- Captcha -------------------------------------------------------- -->
-          <div class="justify-between flex items-center mx-auto w-[90%] mt-4">
+          <div class="justify-between flex items-center mx-auto w-[90%]">
 
             <img class="bg-ava-green w-32 rounded-ava10 h-12 mr-5" :src="captchaImage" alt="CaptchaImage">
 
@@ -182,7 +193,7 @@ export default {
           </div>
 
           <!-- Button -------------------------------------------------------- -->
-          <div class="flex items-center mx-auto w-[91%] mt-4">
+          <div class="flex items-center mx-auto w-[91%]">
             <my-button type="submit" class="primary w-full h-12" @click="Login" :canSendData="CanSendData"
               :busy="isProcessing">
               تاید و دریافت کد

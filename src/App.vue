@@ -7,7 +7,6 @@ import Sidebar from './components/Sidebar.vue';
 
 <script>
 export default {
-
     data() {
         return {
             isMobile: false,
@@ -36,7 +35,7 @@ export default {
 </script>
 
 <template>
-    <div class="bg-white h-[100vh]" v-if="$route.name === 'login' || $route.name === 'confirmCode'">
+    <div v-if="$route.name === 'login' || $route.name === 'confirmCode'">
         <RouterView />
     </div>
 
