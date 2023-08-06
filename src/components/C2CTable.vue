@@ -178,7 +178,7 @@ export default {
                                     </p>
                                 </div>
                             </div>
-                            <div v-else>
+                            <div v-else class="flex items-center justify-center">
                                 <div class="bg-ava-bg-alert-info h-8 w-20 flex items-center justify-center rounded-ava18">
                                     <p class="m-0 text-ava-info text-xs">
                                         درحال بررسی

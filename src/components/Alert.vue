@@ -34,7 +34,7 @@ export default {
         containerClass() {
             return [
                 'w-[90%]',
-                'md:w-auto',
+                'md:w-1/2',
                 'md:min-w-[300px]',
                 'h-auto',
 
@@ -53,7 +53,7 @@ export default {
 </script>
 
 <template>
-    <div v-if="showAlert" class="w-full flex justify-center m-auto fixed z-50 top-5 ss02">
+    <div v-if="showAlert" class="w-full h-full fixed top-0 left-0 z-20 ss02">
         <div :class="[containerClass, {
             'bg-ava-bg-alert-info': type === 'info',
             'bg-ava-bg-alert-error': type === 'error',

@@ -4,7 +4,7 @@ export default {
     props: {
         showStatusCard: {
             type: Boolean,
-            default: false,
+            default: true,
         },
         uploadProgressStatus: {
             type: Object,
@@ -23,7 +23,6 @@ export default {
     },
 
     methods: {
-
         CloseCard() {
             this.$emit("cancelUpload");
             this.$emit("update-showStatusCard", false);
@@ -54,3 +53,143 @@ export default {
         </div>
     </div>
 </template>
+
+<style scoped>
+.status-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.status-card {
+    top: 0px;
+    z-index: 2;
+    width: 500px;
+    height: 135px;
+    overflow: auto;
+    margin-top: 80px;
+    border-radius: 5px;
+    position: absolute;
+    background: #ffffff;
+}
+
+.status-card button {
+    border: none;
+    margin-top: 20px;
+    margin-left: 30px;
+    border-radius: 4px;
+    background-color: #ffebed;
+}
+
+.status-card button svg {
+    color: #fc573b;
+    margin-bottom: 2px;
+}
+
+.status-card h1 {
+    width: 90px;
+    height: 20px;
+    float: right;
+    font-size: 20px;
+    color: #292d36;
+    font-weight: 700;
+    margin-top: 30px;
+    line-height: 13px;
+    margin-right: 30px;
+    font-style: normal;
+    text-align: center;
+    font-family: "Bahij Nazanin";
+}
+
+.eta-container {
+    width: 100%;
+    display: flex;
+    margin-top: 10px;
+    justify-content: flex-end;
+}
+
+.p1 {
+    font-size: 12px;
+    font-weight: 400;
+    color: #80848f;
+    line-height: 23px;
+    margin-right: 37px;
+    font-style: normal;
+    font-family: "IRANYekanX";
+}
+
+.eta {
+    font-size: 15px;
+    font-weight: 400;
+    color: #000000;
+    line-height: 23px;
+    margin-right: 7.5px;
+    font-style: normal;
+    font-family: "IRANYekanX";
+}
+
+.seceonds {
+    font-size: 12px;
+    font-weight: 400;
+    color: #000000;
+    line-height: 23px;
+    margin-right: 7px;
+    font-style: normal;
+    font-family: "IRANYekanX";
+}
+
+.overlay {
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.ss02 {
+    -moz-font-feature-settings: "ss02";
+    -webkit-font-feature-settings: "ss02";
+    font-feature-settings: "ss02";
+}
+
+progress {
+    width: 87%;
+    bottom: 2px;
+    height: 5px;
+    direction: rtl;
+    margin-top: 10px;
+    margin-left: 30px;
+    position: relative;
+    border-radius: 4px;
+}
+
+progress::-webkit-progress-bar {
+    border-radius: 4px;
+    background-color: #d9d9d9;
+}
+
+progress::-webkit-progress-value {
+    border-radius: 4px;
+    background-color: #4a7337;
+}
+
+progress::-moz-progress-bar {
+    border-radius: 4px;
+    background-color: #4a7337;
+}
+
+@media screen and (max-width: 900px) {
+    .status-card {
+        width: 60%;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .status-card {
+        width: 90%;
+    }
+}
+</style>

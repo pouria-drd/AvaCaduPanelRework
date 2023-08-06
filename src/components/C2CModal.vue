@@ -1,4 +1,6 @@
 <script>
+import axios from 'axios';
+import Alert from './alert.vue';
 import MyInput from './MyInput.vue';
 import MyButton from './Mybutton.vue';
 import JalaaliMoment from "moment-jalaali";
@@ -11,6 +13,7 @@ export default {
     name: 'C2CModal',
 
     components: {
+        Alert,
         MyInput,
         MyButton,
         MySelect,
@@ -28,6 +31,11 @@ export default {
 
     data() {
         return {
+            alertType: "error",
+
+            showAlert: false,
+            alertMessage: "",
+
             files: [],
             isDragging: false,
 
@@ -71,8 +79,44 @@ export default {
     },
 
     methods: {
-        PostNewC2C() {
-            console.log(0);
+        async PostNewC2C() {
+            this.isProcessing = true;
+
+            const persianDate = JalaaliMoment(this.selectedDate, 'jYYYY/jMM/jDD');
+            const georgianDate = persianDate.format('YYYY/MM/DD HH:mm:ss');
+
+            var token = sessionStorage.getItem("bearer");
+
+            await axios({
+                method: "post",
+                url: this.$baseUrl + "Wallet/CardToCardInfo",
+                data: {
+
+
+                    ReceiptImage: this.files[0],
+                    Amount: this.amount,
+                    PaymentDate: georgianDate,
+                    RecoveryNumber: this.trackingCode,
+                },
+
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data",
+                },
+            })
+                .then((response) => {
+                    this.showAlert = true;
+                    this.alertType = "success";
+                    this.alertMessage = response.data.message;
+                    setTimeout(this.CloseCard, 2000);
+                })
+                .catch((error) => {
+                    this.showAlert = true;
+                    this.alertType = "error";
+                    this.alertMessage = error["response"]["data"]["message"];
+                });
+
+            this.isProcessing = false;
         },
 
         CloseCard() {
@@ -147,6 +191,7 @@ export default {
 
     computed: {
         CanSendData() {
+            return true;
             if (this.amount.length < 4 || this.trackingCode.length < 4 || this.files.length === 0) {
                 this.canSendData = false;
                 return false;
@@ -174,6 +219,8 @@ export default {
 </script>
 
 <template>
+    <alert v-if="showAlert" title="" :show-alert="showAlert" @update-showAlert="showAlert = $event" :message="alertMessage"
+        :type="alertType" />
     <div v-if="showC2CModal">
         <div class="overlay flex items-center justify-center">
             <div class="w-[90%] sm:w-96 p-4 bg-white rounded-md flex flex-col gap-3 z-50">

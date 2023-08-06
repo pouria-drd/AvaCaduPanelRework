@@ -1,4 +1,5 @@
 <script>
+import axios from 'axios';
 import C2CModal from './C2CModal.vue';
 import MyButton from './Mybutton.vue';
 import closeIcon from './icons/closeIcon.vue';
@@ -22,15 +23,54 @@ export default {
     data() {
         return {
             openC2CModal: false,
+            showPaymentChoiseCard: false,
+            showC2CPendingStatus: false,
+
+            c2cPendingMessage: "",
         };
     },
 
+    created() {
+        this.CheckC2CStatus();
+    },
+
     methods: {
+
+        async CheckC2CStatus() {
+            this.c2cPendingMessage = "";
+            var token = sessionStorage.getItem("bearer");
+
+            this.showC2CPendingStatus = false;
+
+            var result = false;
+            await axios({
+                method: "get",
+                url: this.$baseUrl + "Wallet/CardToCardStatus",
+                headers: { Authorization: `Bearer ${token}` },
+            }).then((response) => {
+                result = response.data.status;
+
+                if (result == false) {
+                    this.showC2CPendingStatus = true;
+                    this.c2cPendingMessage = response.data.message;
+                }
+
+            }).catch((error) => {
+                result = false;
+            });
+
+            return result;
+        },
+
         CloseCard() {
             this.$emit('update-showWalletChoicesModal', false);
         },
 
         OpenC2CModal() {
+            if (this.c2cPendingMessage.length > 0) {
+                return;
+            }
+
             this.openC2CModal = true;
         },
     },
@@ -61,10 +101,14 @@ export default {
                         درگاه اینترنتی
                     </my-button>
 
-                    <my-button @click="OpenC2CModal" btnType="primary" class="m-0 h-11">
+                    <my-button @click="OpenC2CModal" btnType="primary" class="m-0 h-11"
+                        :canSendData="!showC2CPendingStatus">
                         کارت به کارت
                     </my-button>
                 </div>
+                <p v-if="c2cPendingMessage" class="m-0 font-yekanX text-xs text-right r2l text-ava-orange">{{
+                    c2cPendingMessage }}
+                </p>
             </div>
         </div>
     </div>
