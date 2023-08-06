@@ -176,7 +176,7 @@ export default {
 <template>
     <div v-if="showC2CModal">
         <div class="overlay flex items-center justify-center">
-            <div class="w-[90%] md:w-96 p-4 bg-white rounded-md flex flex-col gap-3 z-50">
+            <div class="w-[90%] sm:w-96 p-4 bg-white rounded-md flex flex-col gap-3 z-50">
                 <div class="flex justify-start items-center">
                     <button @click="CloseCard">
                         <close-icon class="text-ava-black" />

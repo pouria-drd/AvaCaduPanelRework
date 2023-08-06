@@ -42,7 +42,7 @@ export default {
         <C2CModal v-if="openC2CModal" :show-showC2CModal="openC2CModal" @update-showC2CModal="openC2CModal = $event" />
 
         <div v-if="showWalletChoicesModal && !openC2CModal" class="overlay flex items-center justify-center">
-            <div class="w-[90%] md:w-80 p-4 bg-white rounded-md flex flex-col gap-3 z-50">
+            <div class="w-[90%] sm:w-80 p-4 bg-white rounded-md flex flex-col gap-3 z-50">
                 <div class="flex justify-start items-center">
                     <button @click="CloseCard">
                         <close-icon class="text-ava-black" />

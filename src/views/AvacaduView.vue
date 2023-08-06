@@ -2,6 +2,7 @@
 import MyButton from "../components/MyButton.vue";
 import qrIcon from "../components/icons/qrIcon.vue";
 import CustomTable from "../components/CustomTable.vue";
+import NewAvacaduModal from "../components/AvacaduModal.vue";
 import avacaduIcon from "../components/icons/avacaduIcon.vue";
 
 export default {
@@ -10,23 +11,28 @@ export default {
         MyButton,
         avacaduIcon,
         CustomTable,
+        NewAvacaduModal,
     },
 
     data() {
         return {
-
+            showAvacaduModal: false,
         };
     },
 
     methods: {
         NewAvacaduModal() {
-            console.log(0);
+            this.showAvacaduModal = true;
+
         }
     },
 }
 </script>
 
 <template>
+    <new-avacadu-modal v-if="showAvacaduModal" :show-avacadu-modal="showAvacaduModal"
+        @update-showAvacaduModal="showAvacaduModal = $event" />
+
     <main class="flex flex-col h-[80vh]">
         <div class="flex flex-col-reverse gap-2 md:flex-row justify-between mb-4">
             <my-button btnType="primary" @click="NewAvacaduModal" class="w-fit m-0">

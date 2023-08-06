@@ -174,7 +174,7 @@ export default {
 <template>
     <div v-if="showAlbumModal">
         <div class="overlay flex items-center justify-center">
-            <div class="w-[90%] md:w-96 p-4 bg-white rounded-md flex flex-col gap-4 z-50 overflow-y-auto max-h-[85vh]">
+            <div class="w-[90%] sm:w-96 p-4 bg-white rounded-md flex flex-col gap-4 z-50 overflow-y-auto max-h-[85vh]">
                 <div class="flex items-center justify-between">
                     <button @click="CloseCard">
                         <close-icon class="text-ava-black" />
@@ -255,7 +255,7 @@ export default {
                     <input id="test" class="check-btn m-0" type="checkbox" v-model="agreed" v-bind:value="!agreed">
                 </div>
                 <div class="flex items-center justify-start">
-                    <my-button btnType=" primary w-36 h-12 m-0" :canSendData="CanSendData" :busy="isProcessing"
+                    <my-button btnType="primary w-36 h-12 m-0" :canSendData="CanSendData" :busy="isProcessing"
                         @click="PostNewAlbum">
                         تایید و ادامه
                     </my-button>
@@ -266,16 +266,6 @@ export default {
 </template>
 
 <style scoped>
-.overlay {
-    top: 0;
-    left: 0;
-    z-index: 10;
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    background-color: rgba(0, 0, 0, 0.4);
-}
-
 .check-btn {
     width: 20px;
     height: 20px;
