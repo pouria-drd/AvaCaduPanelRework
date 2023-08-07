@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 
+const staticUserPath = "/user-account";
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -19,35 +21,35 @@ const router = createRouter({
 
     {
       name: "home",
-      path: "/home",
+      path: staticUserPath + "/home",
       meta: { requiresAuth: true },
       component: () => import("../views/HomeView.vue"),
     },
 
     {
       name: "card-to-card",
-      path: "/card-to-card",
+      path: staticUserPath + "/card-to-card",
       meta: { requiresAuth: true },
       component: () => import("../views/CardToCardView.vue"),
     },
 
     {
       name: "credits-list",
-      path: "/credits-list",
+      path: staticUserPath + "/credits-list",
       meta: { requiresAuth: true },
       component: () => import("../views/CreditsListView.vue"),
     },
 
     {
       name: "avacadu",
-      path: "/avacadu",
+      path: staticUserPath + "/avacadu",
       meta: { requiresAuth: true },
       component: () => import("../views/AvacaduView.vue"),
     },
 
     {
       name: "album",
-      path: "/album",
+      path: staticUserPath + "/album",
       meta: { requiresAuth: true },
       component: () => import("../views/AlbumView.vue"),
     },
