@@ -3,12 +3,14 @@ import axios from "axios";
 import MyInput from './MyInput.vue';
 import MyButton from "./MyButton.vue";
 import PhoneInput from './PhoneInput.vue';
+import Alert from "../components/Alert.vue";
 import BackIcon from "./icons/backIcon.vue";
 import PlayIcon from "./icons/PlayIcon.vue";
 import PauseIcon from "./icons/PauseIcon.vue";
 import closeIcon from './icons/closeIcon.vue';
 import uploadIcon from "./icons/uploadIcon.vue";
 import NextImgIcon from "./icons/nextImgIcon.vue";
+import UploadStatusBar from "./UploadStatusBar.vue";
 import closeImageIcon from "./icons/closeImageicon.vue";
 import PreviousImgIcon from "./icons/previousImgIcon.vue";
 
@@ -16,6 +18,7 @@ export default {
     name: 'AavacaduModal',
 
     components: {
+        Alert,
         MyInput,
         MyButton,
         BackIcon,
@@ -27,6 +30,7 @@ export default {
         NextImgIcon,
         closeImageIcon,
         PreviousImgIcon,
+        UploadStatusBar,
     },
 
     props: {
@@ -97,13 +101,75 @@ export default {
             currentTime: "0:00",
             progressDuration: 0,
             progressCurrentTime: 0,
+
+            axiosAbortController: null,
+
+            sendData: [],
+            showStatusCard: false,
+
+            showAlert: false,
         };
     },
 
     methods: {
-        PostNewAvacadu() {
-            console.log(0);
+        async PostNewAvacadu() {
+            this.showStatusCard = true;
+
+            let sendForm = {
+                phoneNumber: "0" + this.phoneNumber,
+                email: this.email,
+                voiceFile: this.musicFile,
+                imageFile: this.customThemeFile,
+                heading: this.title,
+                paragraph: this.avacaduText,
+                themeId: this.selectedImage,
+                isPrivate: this.isPrivate,
+                password: this.password,
+            };
+
+            var token = sessionStorage.getItem("bearer");
+
+            this.axiosAbortController = new AbortController();
+
+            await axios({
+                method: "post",
+                url: this.$baseUrl + "Contract/NewVoiceContract",
+                data: sendForm,
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data",
+                },
+                onUploadProgress: function (progressEvent) {
+                    this.sendData.currentValue = parseInt(
+                        Math.round((progressEvent.loaded / progressEvent.total) * 100)
+                    );
+                    this.sendData.maxValue = 100;
+                }.bind(this),
+                signal: this.axiosAbortController.signal,
+            })
+                .then((response) => {
+                    this.showStatusCard = false;
+                }).catch((error) => {
+                    this.ShowErrorMessage(
+                        error.response.data.message
+                    );
+
+                }).finally(() => {
+
+                    setInterval(
+                        () => window.location.reload(),
+                        100
+                    )
+                })
+
+            this.$emit("upload-progress-status", this.sendData);
         },
+        cancelUpload() {
+            if (this.axiosAbortController) {
+                this.axiosAbortController.abort();
+            }
+        },
+
 
         async ThemeChanged() {
             await axios({
@@ -117,7 +183,7 @@ export default {
                     this.selectedTheme = 1;
                 })
                 .catch((error) => {
-                    console.log(error);
+                    this.ShowErrorMessage(error.response.data.message);
                 });
 
             await axios({
@@ -129,7 +195,7 @@ export default {
                     this.CategoryChanged();
                 })
                 .catch((error) => {
-                    console.log(error);
+                    this.ShowErrorMessage(error.response.data.message);
                 });
         },
 
@@ -148,12 +214,17 @@ export default {
                     this.price = priceFormat.format(response.data.data);
                 })
                 .catch((error) => {
-                    console.log(error);
+                    this.ShowErrorMessage(error.response.data.message);
                 });
         },
 
         CloseCard() {
             this.$emit('update-showAvacaduModal', false);
+        },
+
+        ShowErrorMessage(message) {
+            this.showAlert = true;
+            this.errorMessage = message;
         },
 
         Confirm() {
@@ -219,8 +290,7 @@ export default {
             this.currentTrack.src = null;
 
             if (files[0].size > this.maxMusicSize) {
-                this.errorMessage = "حجم فایل انتخابی بیش از 10 مگابایت است.";
-                // this.ShowErrorMessage();
+                this.ShowErrorMessage("حجم فایل انتخابی بیش از 10 مگابایت است.");
                 return;
             };
 
@@ -255,8 +325,7 @@ export default {
             this.customThemeFile = null;
             this.imageUrl = null;
             if (files[0].size > this.maxCustomThemeSize) {
-                this.errorMessage = "حجم فایل انتخابی از یک مگابایت بیشتر است.";
-                // this.ShowErrorMessage();
+                this.ShowErrorMessage("حجم فایل انتخابی از یک مگابایت بیشتر است.");
                 return;
             }
             this.customThemeFile = files[0];
@@ -337,7 +406,16 @@ export default {
 
 <template>
     <div v-if="showAvacaduModal">
-        <div class="overlay flex items-center justify-center">
+
+        <alert v-if="showAlert" :show-alert="showAlert" @update-showAlert="showAlert = $event" :message="errorMessage"
+            type="error" />
+
+        <upload-status-bar v-if="showStatusCard" :show-status-card="showStatusCard"
+            @update-showStatusCard="showStatusCard = $event" :upload-progress-status="sendData"
+            @update-uploadProgressStatus="sendData = $event" @cancel-upload="cancelUpload" />
+
+
+        <div v-else class="overlay flex items-center justify-center">
             <div v-if="!showPreviewCard"
                 class="w-[90%] sm:w-96 p-4 bg-white rounded-md flex flex-col gap-4 z-50 overflow-y-auto max-h-[85vh]">
                 <div class="flex items-center justify-between">

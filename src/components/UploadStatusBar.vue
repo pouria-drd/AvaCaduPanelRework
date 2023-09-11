@@ -35,9 +35,9 @@ export default {
 }
 </script>
 <template>
-    <main v-if="showStatusCard" class="fixed w-[100vw] h-[100vh] top-0 left-0 z-50">
-        <div class="flex p-4 justify-center">
-            <div class="w-[500px] bg-white border border-ava-gray p-4 rounded-md flex flex-col gap-4">
+    <main v-if="showStatusCard" class="overlay">
+        <div class="flex justify-center items-center align-middle h-[100vh]">
+            <div class="w-[500px] bg-white p-4 rounded-md flex flex-col gap-4">
                 <div class="flex justify-between items-center">
                     <button @click="CloseCard" class="bg-ava-bg-red flex justify-center items-center w-6 h-6 rounded-md">
                         <close-icon class="text-ava-orange w-3" />

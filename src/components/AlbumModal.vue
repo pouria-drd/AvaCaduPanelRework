@@ -183,7 +183,6 @@ export default {
         ShowErrorMessage(message) {
             this.showAlert = true;
             this.errorMessage = message;
-            console.error(this.errorMessage);
         },
 
         cancelUpload() {
