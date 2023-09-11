@@ -29,8 +29,7 @@ export default {
 </script>
 
 <template>
-    <new-album-modal v-if="showAlbumModal" :show-album-modal="showAlbumModal"
-        @update-showAlbumModal="showAlbumModal = $event" />
+    <new-album-modal :show-album-modal="showAlbumModal" @update-showAlbumModal="showAlbumModal = $event" />
 
     <main class="flex flex-col h-[80vh]">
         <div class="flex flex-col-reverse gap-2 md:flex-row justify-between mb-4">

@@ -191,7 +191,7 @@ export default {
 
     computed: {
         CanSendData() {
-            return true;
+            // return true;
             if (this.amount.length < 4 || this.trackingCode.length < 4 || this.files.length === 0) {
                 this.canSendData = false;
                 return false;

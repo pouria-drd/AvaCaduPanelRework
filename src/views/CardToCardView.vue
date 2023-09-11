@@ -1,24 +1,34 @@
 <script>
+import C2CModal from "../components/C2CModal.vue";
 import MyButton from '../components/MyButton.vue';
 import C2CTable from '../components/C2CTable.vue';
 import card2CardIcon from "../components/icons/card2CardIcon.vue"
 
 export default {
     components: {
+        C2CModal,
         MyButton,
         C2CTable,
         card2CardIcon
     },
 
+    data() {
+        return {
+            showC2CModal: false,
+        };
+    },
+
     methods: {
         NewC2CModal() {
-            this.showAlbumModal = true;
+            this.showC2CModal = true;
         }
     },
 }
 </script>
 
 <template>
+    <C2CModal v-if="showC2CModal" :show-showC2CModal="showC2CModal" @update-showC2CModal="showC2CModal = $event" />
+
     <main class="flex flex-col h-[80vh]">
         <div class="flex flex-col-reverse gap-2 md:flex-row justify-between mb-4">
             <my-button btnType="primary" @click="NewC2CModal" class="w-fit m-0">

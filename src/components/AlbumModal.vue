@@ -3,20 +3,24 @@ import axios from "axios";
 import MyInput from './MyInput.vue';
 import MyButton from "./MyButton.vue";
 import PhoneInput from './PhoneInput.vue';
+import Alert from "../components/Alert.vue";
 import closeIcon from './icons/closeIcon.vue';
 import uploadIcon from "./icons/uploadIcon.vue";
-import closeImageIcon from "./icons/closeImageicon.vue"
+import UploadStatusBar from "./UploadStatusBar.vue";
+import closeImageIcon from "./icons/closeImageicon.vue";
 
 export default {
     name: 'AlbumModal',
 
     components: {
+        Alert,
         MyInput,
         MyButton,
         closeIcon,
         PhoneInput,
         uploadIcon,
         closeImageIcon,
+        UploadStatusBar,
     },
 
     props: {
@@ -52,13 +56,67 @@ export default {
             phoneNumber: "",
 
             agreed: false,
+
+            sendData: [],
+            showStatusCard: false,
+
+            showAlert: false,
         };
     },
 
     methods: {
-        PostNewAlbum() {
-            console.log(0);
+        async PostNewAlbum() {
+            this.showStatusCard = true;
+
+            var token = sessionStorage.getItem("bearer");
+            let formData = new FormData();
+
+            this.files.forEach((file) => formData.append("Files", file));
+
+            formData.append("Title", this.title);
+            formData.append("PhoneNumber", "0" + this.phoneNumber);
+
+            this.axiosAbortController = new AbortController();
+
+            await axios({
+                method: "post",
+                url: this.$baseUrl + "Contract/NewAlbumContract",
+                data: formData,
+
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data",
+                },
+                onUploadProgress: function (progressEvent) {
+                    this.sendData.currentValue = parseInt(
+                        Math.round((progressEvent.loaded / progressEvent.total) * 100)
+                    );
+                    this.sendData.maxValue = 100;
+                }.bind(this),
+                signal: this.axiosAbortController.signal,
+            })
+                .then((response) => {
+                    this.showStatusCard = false;
+
+                    // this.$emit("update-albumlist");
+                    // this.$emit("goto-Albums");
+                })
+                .catch((error) => {
+                    this.ShowErrorMessage(
+                        error.response.data.message
+                    );
+
+                }).finally(() => {
+
+                    setInterval(
+                        () => window.location.reload(),
+                        100
+                    )
+                })
+
+            this.$emit("upload-progress-status", this.sendData);
         },
+
 
         async CalculatePrice() {
             this.price = "محاسبه نشده";
@@ -84,7 +142,12 @@ export default {
                         this.price = "محاسبه نشده";
                     }
                 })
-                .catch((error) => { });
+                .catch((error) => {
+
+                    this.ShowErrorMessage(
+                        error.response.data.message
+                    );
+                });
         },
 
 
@@ -98,17 +161,17 @@ export default {
             this.files = [...this.$refs.file.files];
 
             if (this.files.length > 10) {
-                this.errorMessage =
-                    "حداکثر تعداد تصویر مجاز برای هر آلبوم، 10 عدد می باشد.";
-                this.ShowErrorMessage();
+                this.ShowErrorMessage(
+                    "حداکثر تعداد تصویر مجاز برای هر آلبوم، 10 عدد می باشد."
+                );
                 this.files = [];
             }
 
             this.files.forEach((file) => {
                 if (file.size > 1000000) {
-                    this.errorMessage =
-                        "حداکثر حجم مجاز برای هر تصویر، یک مگابایت می باشد.";
-                    this.ShowErrorMessage();
+                    this.ShowErrorMessage(
+                        "حداکثر حجم مجاز برای هر تصویر، یک مگابایت می باشد."
+                    );
                     this.files = [];
                     return;
                 }
@@ -117,7 +180,9 @@ export default {
             this.CalculatePrice();
         },
 
-        ShowErrorMessage() {
+        ShowErrorMessage(message) {
+            this.showAlert = true;
+            this.errorMessage = message;
             console.error(this.errorMessage);
         },
 
@@ -173,8 +238,15 @@ export default {
 
 <template>
     <div v-if="showAlbumModal">
-        <div class="overlay flex items-center justify-center">
-            <div class="w-[90%] sm:w-96 p-4 bg-white rounded-md flex flex-col gap-4 z-50 overflow-y-auto max-h-[85vh]">
+        <alert v-if="showAlert" :show-alert="showAlert" @update-showAlert="showAlert = $event" :message="errorMessage"
+            type="error" />
+
+        <upload-status-bar v-if="showStatusCard" :show-status-card="showStatusCard"
+            @update-showStatusCard="showStatusCard = $event" :upload-progress-status="sendData"
+            @update-uploadProgressStatus="sendData = $event" @cancel-upload="cancelUpload" />
+
+        <div v-else class="overlay flex items-center justify-center">
+            <div class="w-[90%] sm:w-96 p-4 bg-white rounded-md flex flex-col gap-4 z-40 overflow-y-auto max-h-[85vh]">
                 <div class="flex items-center justify-between">
                     <button @click="CloseCard">
                         <close-icon class="text-ava-black" />
