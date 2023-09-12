@@ -35,7 +35,6 @@ export default {
     },
 
     methods: {
-
         async CheckC2CStatus() {
             this.c2cPendingMessage = "";
             var token = sessionStorage.getItem("bearer");

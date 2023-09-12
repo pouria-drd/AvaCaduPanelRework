@@ -48,6 +48,14 @@ export default {
             this.isMobile = window.innerWidth <= this.breakpoint;
         },
     },
+
+    watch: {
+        $route(to, from) {
+            if (this.isMobile) {
+                this.isOpen = false;
+            };
+        }
+    }
 }
 </script>
 
